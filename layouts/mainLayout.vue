@@ -1,6 +1,14 @@
 <template>
-    <div>
-
+    <div class="w-full h-full">
+        <div>
+            <NavBar />
+        </div>
+        <div class="container mx-auto px-4 mt-5">
+            <slot/>
+        </div>
+        <div>
+            <footer/>
+        </div>
     </div>
 </template>
 
