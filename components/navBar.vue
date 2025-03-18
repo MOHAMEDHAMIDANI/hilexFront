@@ -147,7 +147,7 @@
         type="button"
         data-state="closed"
         data-grace-area-trigger=""
-        class=" font-medium border border-gray-300 rounded-full sm:hidden inline-flex items-center focus:outline-hidden disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:opacity-75 aria-disabled:opacity-75 transition-colors text-sm  hover:bg-zinc-200 cursor-pointer hover:disabled:bg-transparent dark:hover:disabled:bg-transparent hover:aria-disabled:bg-transparent dark:hover:aria-disabled:bg-transparent p-1"
+        class="font-medium border border-gray-300 rounded-full sm:hidden inline-flex items-center focus:outline-hidden disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:opacity-75 aria-disabled:opacity-75 transition-colors text-sm hover:bg-zinc-200 cursor-pointer hover:disabled:bg-transparent dark:hover:disabled:bg-transparent hover:aria-disabled:bg-transparent dark:hover:aria-disabled:bg-transparent p-1"
       >
         <div class="relative inline-flex items-center justify-center shrink-0">
           <svg
@@ -234,7 +234,8 @@
         v-if="openMenu"
         class="absolute bg-white bg px-10 backdrop-blur-lg border lg:hidden border-white/15 rounded-xl p-6 shadow-xl h-[200px] py-5 top-16 right-10"
       >
-        <ul ref="Navigation"
+        <ul
+          ref="Navigation"
           class="flex flex-col justify-evenly items-center h-full w-full text-primary-dark"
         >
           <li>
@@ -284,14 +285,77 @@
 </template>
 
 <script setup lang="ts">
-
 const openMenu = ref(false);
-const target = useTemplateRef<HTMLElement>('Navigation')
-onClickOutside(target, (event : PointerEvent) => {
+const target = useTemplateRef<HTMLElement>("Navigation");
+onClickOutside(target, (event: PointerEvent) => {
   openMenu.value = false;
-})
-
+});
 </script>
 
-<style scoped>
+
+<style>
+/* Dot Animation */
+.dot-drop {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: dropDot 0.6s forwards;
+}
+@keyframes dropDot {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Text stroke draw animation */
+.text-animate {
+  fill: none;
+  stroke-width: 2;
+  stroke: #1e3a8a;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: draw 1s forwards;
+}
+.text-animate:nth-of-type(3) {
+  animation-delay: 0.8s;
+} /* ı */
+.text-animate:nth-of-type(4) {
+  animation-delay: 1.6s;
+} /* L */
+.text-animate:nth-of-type(5) {
+  animation-delay: 2.4s;
+} /* e */
+.text-animate:nth-of-type(6) {
+  animation-delay: 3.2s;
+} /* x */
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* After animation, add fill */
+.blue {
+  animation: draw 1s forwards, fillBlue 0.5s forwards;
+  animation-delay: 0s, 4s;
+}
+.orange {
+  animation: draw 1s forwards, fillOrange 0.5s forwards;
+  animation-delay: 0s, 4s;
+}
+
+@keyframes fillBlue {
+  to {
+    fill: url(#blueGradient);
+    stroke: none;
+  }
+}
+
+@keyframes fillOrange {
+  to {
+    fill: url(#orangeGradient);
+    stroke: none;
+  }
+}
 </style>
