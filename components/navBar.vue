@@ -2,7 +2,7 @@
   <div
     class="h-16 shrink-0 flex items-center lg:justify-around px-4 sm:px-6 gap-1.5 w-full bg-white/30 backdrop-blur-md border border-white/20 rounded-lg shadow-lg justify-between"
   >
-    <div class="w-[100px]">
+    <div class="w-[100px] lg:w-[150px]">
       <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -234,7 +234,7 @@
         v-if="openMenu"
         class="absolute bg-white bg px-10 backdrop-blur-lg border lg:hidden border-white/15 rounded-xl p-6 shadow-xl h-[200px] py-5 top-16 right-10"
       >
-        <ul
+        <ul ref="Navigation"
           class="flex flex-col justify-evenly items-center h-full w-full text-primary-dark"
         >
           <li>
@@ -284,7 +284,13 @@
 </template>
 
 <script setup lang="ts">
+
 const openMenu = ref(false);
+const target = useTemplateRef<HTMLElement>('Navigation')
+onClickOutside(target, (event : PointerEvent) => {
+  openMenu.value = false;
+})
+
 </script>
 
 <style scoped>
