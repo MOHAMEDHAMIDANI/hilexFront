@@ -294,7 +294,6 @@ onClickOutside(target, (event: PointerEvent) => {
 
 
 <style>
-/* Dot Animation */
 .dot-drop {
   opacity: 0;
   transform: translateY(-20px);
