@@ -10,6 +10,7 @@
       </h3>
       <div class="flex items-center justify-between w-[80px]">
         <button
+          @click="scrollRight"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
@@ -32,6 +33,7 @@
           </div>
         </button>
         <button
+          @click="scrollLeft"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
@@ -65,7 +67,46 @@
 </template>
 
 <script setup lang="ts">
+const sliderRef = ref<HTMLElement | null>(null);
+const childrenCount = ref(0);
+const SliderWidth = ref(0);
+const childWidth = ref(0);
+const gap = ref(0);
 
+onMounted(() => {
+  nextTick(() => {
+    if (sliderRef.value) {
+      const slider = sliderRef.value;
+      childrenCount.value = slider.children.length;
+      SliderWidth.value = slider.offsetWidth;
+
+      const firstChild = slider.children[0] as HTMLElement;
+      if (firstChild) {
+        childWidth.value = firstChild.offsetWidth;
+      }
+      const style = window.getComputedStyle(slider);
+      const gapValue = style.columnGap || style.gap || "0px";
+      gap.value = parseInt(gapValue);
+
+      console.log("Child Width:", childWidth.value);
+      console.log("Gap:", gap.value);
+    }
+  });
+});
+
+const scrollLeft = () => {
+  sliderRef.value?.scrollTo({
+    left: (sliderRef.value?.scrollLeft || 0) + childWidth.value + gap.value,
+    behavior: "smooth",
+  });
+};
+
+const scrollRight = () => {
+  sliderRef.value?.scrollTo({
+    left: (sliderRef.value?.scrollLeft || 0) - childWidth.value - gap.value,
+    behavior: "smooth",
+  });
+}
 </script>
 
 <style scoped>

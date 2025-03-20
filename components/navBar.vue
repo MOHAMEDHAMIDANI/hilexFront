@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-16 shrink-0 flex items-center lg:justify-around px-4 sm:px-6 gap-1.5 w-full bg-white/30 backdrop-blur-md border border-white/20 rounded-lg shadow-lg justify-between"
+    class="h-16 sticky shrink-0 flex items-center lg:justify-around px-4 sm:px-6 gap-1.5 w-full bg-white/30 backdrop-blur-md border border-white/20 rounded-lg shadow-lg justify-between"
   >
     <div class="w-[100px] lg:w-[150px]">
       <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
@@ -230,56 +230,58 @@
           />
         </svg>
       </button>
-      <div
-        v-if="openMenu"
-        class="absolute bg-white bg px-10 backdrop-blur-lg border lg:hidden border-white/15 rounded-xl p-6 shadow-xl h-[200px] py-5 top-16 right-10"
-      >
-        <ul
-          ref="Navigation"
-          class="flex flex-col justify-evenly items-center h-full w-full text-primary-dark"
+      <Transition name="slide-fade">
+        <div
+          v-if="openMenu"
+          class="absolute bg-white bg px-10 backdrop-blur-lg border lg:hidden border-white/15 rounded-xl p-6 shadow-xl h-[200px] py-5 top-16 right-10"
         >
-          <li>
-            <nuxt-link
-              to="#"
-              class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
-            >
-              <h1 class="capitalize font-Montserrat">home</h1>
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
-              to="#"
-              class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
-            >
-              <h1 class="capitalize font-Montserrat">contact</h1>
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
-              to="#"
-              class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
-            >
-              <h1 class="capitalize font-Montserrat">about</h1>
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
-              to="#"
-              class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
-            >
-              <h1 class="capitalize font-Montserrat">services</h1>
-            </nuxt-link>
-          </li>
-          <li>
-            <nuxt-link
-              to="#"
-              class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
-            >
-              <h1 class="capitalize font-Montserrat">products</h1>
-            </nuxt-link>
-          </li>
-        </ul>
-      </div>
+          <ul
+            ref="Navigation"
+            class="flex flex-col justify-evenly items-center h-full w-full text-primary-dark"
+          >
+            <li>
+              <nuxt-link
+                to="#"
+                class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
+              >
+                <h1 class="capitalize font-Montserrat">home</h1>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                to="#"
+                class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
+              >
+                <h1 class="capitalize font-Montserrat">contact</h1>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                to="#"
+                class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
+              >
+                <h1 class="capitalize font-Montserrat">about</h1>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                to="#"
+                class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
+              >
+                <h1 class="capitalize font-Montserrat">services</h1>
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link
+                to="#"
+                class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
+              >
+                <h1 class="capitalize font-Montserrat">products</h1>
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -305,8 +307,6 @@ onClickOutside(target, (event: PointerEvent) => {
     transform: translateY(0);
   }
 }
-
-/* Text stroke draw animation */
 .text-animate {
   fill: none;
   stroke-width: 2;
@@ -317,24 +317,22 @@ onClickOutside(target, (event: PointerEvent) => {
 }
 .text-animate:nth-of-type(3) {
   animation-delay: 0.8s;
-} /* ı */
+}
 .text-animate:nth-of-type(4) {
   animation-delay: 1.6s;
-} /* L */
+}
 .text-animate:nth-of-type(5) {
   animation-delay: 2.4s;
-} /* e */
+}
 .text-animate:nth-of-type(6) {
   animation-delay: 3.2s;
-} /* x */
+}
 
 @keyframes draw {
   to {
     stroke-dashoffset: 0;
   }
 }
-
-/* After animation, add fill */
 .blue {
   animation: draw 1s forwards, fillBlue 0.5s forwards;
   animation-delay: 0s, 4s;
@@ -356,5 +354,18 @@ onClickOutside(target, (event: PointerEvent) => {
     fill: url(#orangeGradient);
     stroke: none;
   }
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
