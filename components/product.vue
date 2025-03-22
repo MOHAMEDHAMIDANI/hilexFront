@@ -96,11 +96,10 @@
       <Transition name="fade">
         <div
           v-if="show"
-          class="w-[270px] h-[41px] cursor-pointer bg-black absolute top-[209px] rounded-[4px] flex justify-center items-center"
+          class="w-[270px] h-[41px] cursor-pointer bg-black absolute top-[209px] rounded-t-[4px] flex justify-center items-center"
         >
           <h3 @click="addToCart = !addToCart" v-if="!addToCart" class="text-white w-full  h-[24px] text-center capitalize">add to cart</h3>
           <h3 @click="addToCart = !addToCart" v-else class="text-white w-full text-center h-[24px] capitalize">added to cart</h3>
- 
         </div>
       </Transition>
 

@@ -2,7 +2,7 @@
   <div
     class="h-16 sticky shrink-0 flex items-center lg:justify-around px-4 sm:px-6 gap-1.5 w-full bg-white/30 backdrop-blur-md border border-white/20 rounded-lg shadow-lg justify-between"
   >
-    <div class="w-[100px] lg:w-[150px]">
+    <nuxtLink :to="{ name: 'index' }" class="w-[100px] lg:w-[150px]">
       <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -57,7 +57,7 @@
           x
         </text>
       </svg>
-    </div>
+    </nuxtLink>
 
     <div
       class="lg:flex items-center shrink-0 gap-3 h-[70%] px-4 md:w-md hidden"
@@ -163,7 +163,7 @@
           </svg>
         </div>
       </button>
-      <button
+      <nuxtLink :to="{name : 'favorite'}"
         type="button"
         data-state="closed"
         data-grace-area-trigger=""
@@ -185,8 +185,8 @@
             class="rounded-full ring ring-primary bg-primary flex items-center justify-center font-medium whitespace-nowrap h-[8px] min-w-[8px] text-[8px] top-0 right-0 absolute"
           ></span>
         </div>
-      </button>
-      <button
+      </nuxtLink>
+      <nuxtLink :to="{name : 'cart'}"
         type="button"
         data-state="closed"
         data-grace-area-trigger=""
@@ -208,7 +208,7 @@
             class="rounded-full ring ring-primary bg-primary flex items-center justify-center font-medium whitespace-nowrap h-[8px] min-w-[8px] text-[8px] top-0 right-0 absolute"
           ></span>
         </div>
-      </button>
+      </nuxtLink>
       <button
         @click="openMenu = !openMenu"
         type="button"

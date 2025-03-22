@@ -1,6 +1,16 @@
 <template>
   <MainLayout>
     <div>
+      <slider class="pg">
+        <category />
+        <category />
+        <category />
+        <category />
+        <category />
+        <category />
+        <category />
+        <category />
+      </slider>
       <slider>
         <Product />
         <Product />
