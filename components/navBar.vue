@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-16 sticky  shrink-0 flex items-center lg:justify-around px-4 sm:px-6 gap-1.5 w-full bg-white/30 backdrop-blur-md border border-white/20 rounded-lg shadow-lg justify-between"
+    class="h-16 sticky shrink-0 flex items-center lg:justify-around px-4 sm:px-6 gap-1.5 w-full bg-white/30 backdrop-blur-md border border-white/20 rounded-lg shadow-lg justify-between"
   >
     <nuxtLink :to="{ name: 'index' }" class="w-[100px] lg:w-[150px]">
       <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +67,7 @@
       >
         <li>
           <nuxt-link
-            to="#"
+            :to="{ name: 'index' }"
             class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
           >
             <h1 class="capitalize font-Montserrat">home</h1>
@@ -75,7 +75,7 @@
         </li>
         <li>
           <nuxt-link
-            to="#"
+            :to="{ name: 'contact' }"
             class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
           >
             <h1 class="capitalize font-Montserrat">contact</h1>
@@ -83,7 +83,7 @@
         </li>
         <li>
           <nuxt-link
-            to="#"
+            :to="{ name: 'about' }"
             class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
           >
             <h1 class="capitalize font-Montserrat">about</h1>
@@ -91,7 +91,7 @@
         </li>
         <li>
           <nuxt-link
-            to="#"
+            :to="{ name: 'services' }"
             class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
           >
             <h1 class="capitalize font-Montserrat">services</h1>
@@ -99,7 +99,7 @@
         </li>
         <li>
           <nuxt-link
-            to="#"
+            :to="{ name: 'products' }"
             class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
           >
             <h1 class="capitalize font-Montserrat">products</h1>
@@ -163,7 +163,8 @@
           </svg>
         </div>
       </button>
-      <nuxtLink :to="{name : 'favorite'}"
+      <nuxtLink
+        :to="{ name: 'favorite' }"
         type="button"
         data-state="closed"
         data-grace-area-trigger=""
@@ -186,7 +187,8 @@
           ></span>
         </div>
       </nuxtLink>
-      <nuxtLink :to="{name : 'cart'}"
+      <nuxtLink
+        :to="{ name: 'cart' }"
         type="button"
         data-state="closed"
         data-grace-area-trigger=""
@@ -241,7 +243,7 @@
           >
             <li>
               <nuxt-link
-                to="#"
+                :to="{ name: 'index' }"
                 class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
               >
                 <h1 class="capitalize font-Montserrat">home</h1>
@@ -249,7 +251,7 @@
             </li>
             <li>
               <nuxt-link
-                to="#"
+                :to="{ name: 'contact' }"
                 class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
               >
                 <h1 class="capitalize font-Montserrat">contact</h1>
@@ -257,7 +259,7 @@
             </li>
             <li>
               <nuxt-link
-                to="#"
+                :to="{ name: 'about' }"
                 class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
               >
                 <h1 class="capitalize font-Montserrat">about</h1>
@@ -265,7 +267,7 @@
             </li>
             <li>
               <nuxt-link
-                to="#"
+                :to="{ name: 'services' }"
                 class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
               >
                 <h1 class="capitalize font-Montserrat">services</h1>
@@ -273,7 +275,7 @@
             </li>
             <li>
               <nuxt-link
-                to="#"
+                :to="{ name: 'products' }"
                 class="relative after:block after:content-[''] after:w-0 after:h-[2px] after:bg-highlight-dark after:transition-all after:duration-300 hover:after:w-full"
               >
                 <h1 class="capitalize font-Montserrat">products</h1>

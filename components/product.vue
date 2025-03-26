@@ -19,8 +19,8 @@
         class="w-[34px] h-[76px] absolute top-[12px] left-[224px] flex flex-col justify-between items-center gap-[8px]"
       >
         <button
-        v-if="!favorite"
-        @click="favorite = !favorite"
+          v-if="!favorite"
+          @click="favorite = !favorite"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
@@ -45,15 +45,15 @@
           </div>
         </button>
         <button
-        v-else
-        @click="favorite = !favorite"
+          v-else
+          @click="favorite = !favorite"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
           class="font-medium inline-flex items-center transition-colors text-sm bg-white cursor-pointer rounded-full hover:bg-zinc-100 hover:disabled:bg-transparent dsize-[34px]"
         >
           <div
-            class="relative inline-flex items-center justify-center shrink-0 p-2 text-highlight-2 "
+            class="relative inline-flex items-center justify-center shrink-0 p-2 text-highlight-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -98,8 +98,20 @@
           v-if="show"
           class="w-[270px] h-[41px] cursor-pointer bg-black absolute top-[209px] rounded-t-[4px] flex justify-center items-center"
         >
-          <h3 @click="addToCart = !addToCart" v-if="!addToCart" class="text-white w-full  h-[24px] text-center capitalize">add to cart</h3>
-          <h3 @click="addToCart = !addToCart" v-else class="text-white w-full text-center h-[24px] capitalize">added to cart</h3>
+          <h3
+            @click="addToCart = !addToCart"
+            v-if="!addToCart"
+            class="text-white w-full h-[24px] text-center capitalize"
+          >
+            add to cart
+          </h3>
+          <h3
+            @click="addToCart = !addToCart"
+            v-else
+            class="text-white w-full text-center h-[24px] capitalize"
+          >
+            added to cart
+          </h3>
         </div>
       </Transition>
 
@@ -132,11 +144,9 @@
 </template>
 
 <script setup lang="ts">
-
 const show = ref(false);
 const favorite = ref(false);
 const addToCart = ref(false);
-
 </script>
 
 <style scoped>

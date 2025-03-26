@@ -59,7 +59,7 @@
     </div>
     <div
       ref="sliderRef"
-      class="w-full h-fit p-2 flex gap-[30px] items-center overflow-x-auto flex-nowrap no-scrollbar"
+      class="w-full h-fit py-2 px-5 flex gap-[30px] items-center overflow-x-auto flex-nowrap no-scrollbar"
     >
       <slot></slot>
     </div>
