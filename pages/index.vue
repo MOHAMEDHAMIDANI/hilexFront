@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import ServiceHighlights from "~/components/ServiceHighlights .vue";
 import MainLayout from "~/layouts/mainLayout.vue";
 </script>
 

@@ -7,12 +7,17 @@
             <slot/>
         </div>
         <div>
-            <footer/>
+            <ServiceHighlights />
+            <MyFooter/>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+
+import MyFooter from '~/components/MyFooter.vue';
+import ServiceHighlights from '~/components/ServiceHighlights .vue';
+
 
 </script>
 

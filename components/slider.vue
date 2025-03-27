@@ -1,12 +1,17 @@
 <template >
   <div
-    class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12  p-2 mt-2 rounded-xl w-full flex flex-col justify-around h-fit mx-auto"
+    class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 p-2 mt-2 rounded-xl w-full flex flex-col justify-around  h-fit mx-auto"
   >
-    <div class="flex items-center justify-between ">
+    <div class="flex items-center justify-between">
       <h3
         class="text-2xl w-fit ml-10 relative after:content-[''] after:absolute after:w-5 after:h-10 after:rounded after:-left-8 after:-top-1 after:bg-highlight-2 text-primary-dark2"
       >
         Products
+      </h3>
+    </div>
+    <div class="flex items-center justify-between">
+      <h3 class="text-2xl w-fit px-2 py-4 capitalize text-black">
+        discover our products
       </h3>
       <div class="flex items-center justify-between w-[80px]">
         <button
@@ -59,10 +64,11 @@
     </div>
     <div
       ref="sliderRef"
-      class="w-full h-fit py-2 px-5 flex gap-[30px] items-center overflow-x-auto flex-nowrap no-scrollbar"
+      class="w-full h-fit py-2 px-2 flex gap-[30px] items-center overflow-x-auto flex-nowrap no-scrollbar"
     >
       <slot></slot>
     </div>
+
   </div>
 </template>
 
@@ -106,7 +112,7 @@ const scrollRight = () => {
     left: (sliderRef.value?.scrollLeft || 0) - childWidth.value - gap.value,
     behavior: "smooth",
   });
-}
+};
 </script>
 
 <style scoped>
