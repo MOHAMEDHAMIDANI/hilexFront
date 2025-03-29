@@ -1,11 +1,11 @@
 <template>
   <div
-    class=" container mx-auto flex flex-col md:flex-row justify-between items-center py-10 bg-white"
+    class=" container mx-auto flex flex-col md:flex-row h-fit justify-between items-center py-10 bg-white"
   >
     <div
       v-for="(service, index) in services"
       :key="index"
-      class="flex flex-col items-center text-center w-full md:w-1/3"
+      class="flex flex-col h-[170px] items-center text-center w-full md:w-1/3"
     >
       <div
         class="w-16 h-16 outline-gray-300 bg-black outline-[10px] rounded-full flex items-center justify-center mb-5"

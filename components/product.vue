@@ -24,7 +24,7 @@
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
-          class="font-medium inline-flex items-center transition-colors text-sm bg-white cursor-pointer rounded-full hover:bg-zinc-100 hover:disabled:bg-transparent dsize-[34px]"
+          class="font-medium inline-flex items-center transition-colors text-sm bg-white cursor-pointer rounded-full hover:bg-zinc-100 hover:disabled:bg-transparent "
         >
           <div
             class="relative inline-flex items-center justify-center shrink-0 p-2"
@@ -70,11 +70,12 @@
             </svg>
           </div>
         </button>
-        <button
+        <nuxtLink
+          :to="{ name: 'products-id', params: { id: 11 } }"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
-          class="font-medium inline-flex items-center transition-colors text-sm bg-white cursor-pointer rounded-full hover:bg-zinc-100 hover:disabled:bg-transparent dsize-[34px]"
+          class="font-medium inline-flex items-center transition-colors text-sm bg-white cursor-pointer rounded-full hover:bg-zinc-100 hover:disabled:bg-transparent "
         >
           <div
             class="relative inline-flex items-center justify-center shrink-0 p-2"
@@ -91,7 +92,7 @@
               />
             </svg>
           </div>
-        </button>
+        </nuxtLink>
       </div>
       <Transition name="fade">
         <div
