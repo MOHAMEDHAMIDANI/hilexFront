@@ -1,32 +1,27 @@
 <template>
     <MainLayout>
         <div class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 mx-auto min-h-lvh flex flex-wrap gap-5">
-            <div class="flex justify-between  sm:flex-col md:flex-row items-center gap-2.5 p-2 w-[670px] h-[600px]">
-                <div class="flex md:flex-col sm:flex-row justify-between items-center h-[600px]">
-                    <div class="w-[170px] h-[138px] flex justify-center items-center bg-[#F5F5F5] rounded-[4px]">
-                        <div class="w-[112px] h-[97px]">
-                            <img src="/assets/g92-2-500x500 1.png" alt="" class="w-full h-full" />
-                        </div>
-                    </div>
-                    <div class="w-[170px] h-[138px] flex justify-center items-center bg-[#F5F5F5] rounded-[4px]">
-                        <div class="w-[112px] h-[97px]">
-                            <img src="/assets/g92-2-500x500 1.png" alt="" class="w-full h-full" />
-                        </div>
-                    </div>
-                    <div class="w-[170px] h-[138px] flex justify-center items-center bg-[#F5F5F5] rounded-[4px]">
-                        <div class="w-[112px] h-[97px]">
-                            <img src="/assets/g92-2-500x500 1.png" alt="" class="w-full h-full" />
-                        </div>
-                    </div>
-                    <div class="w-[170px] h-[138px] flex justify-center items-center bg-[#F5F5F5] rounded-[4px]">
-                        <div class="w-[112px] h-[97px]">
-                            <img src="/assets/g92-2-500x500 1.png" alt="" class="w-full h-full" />
+            <div
+                class="flex justify-between sm:flex-col md:flex-row items-center gap-2.5 p-2 w-full max-w-[670px] sm:w-full sm:h-auto md:h-[600px]">
+
+                <div class="flex md:flex-col sm:flex-row  justify-center items-center md:h-[600px] sm:gap-2">
+                    <div v-for="(image, index) in images" :key="index" @click="selectedImage = image"
+                        :class="selectedImage === image ? 'border-2 border-highlight-2' : ''"
+                        class="md:w-[170px] cursor-pointer md:h-[138px] hover:border-2 hover:border-highlight-2 sm:w-[120px] sm:h-[100px] flex justify-center shrink-0 items-center bg-[#F5F5F5] rounded-[4px]">
+                        <div class="md:w-[112px] md:h-[97px] sm:w-[90px] sm:h-[75px]">
+                            <img src="../../assets/g92-2-500x500 1.png" alt="" class="w-full h-full object-contain" />
                         </div>
                     </div>
                 </div>
-                <div class="md:h-[600px] md:w-[500px] w-full h-full flex justify-center items-center bg-[#F5F5F5]">
-                    <div class="max-w-[446px] max-h-[315px]">
+                <div @mousemove="handleMouseMove($event)" @mouseenter="showZoom = true" @mouseleave="showZoom = false"
+                    class="md:h-[600px] relative md:w-[500px] sm:w-full sm:h-[300px] flex justify-center items-center bg-[#F5F5F5]">
+                    <div ref="imageContainer" class="max-w-[446px] max-h-[315px] sm:max-w-full sm:max-h-full">
                         <img src="/assets/g92-2-500x500 1.png" alt="" class="w-full h-full object-contain" />
+                    </div>
+                    <div v-if="showZoom"
+                        class="absolute w-[200px] h-[200px] border border-gray-400 bg-white shadow-lg overflow-hidden"
+                        :style="{ top: zoomY + 'px', left: zoomX + 'px' }">
+                        <img src="/assets/g92-2-500x500 1.png" class="absolute" :style="zoomStyle" />
                     </div>
                 </div>
             </div>
@@ -71,7 +66,7 @@
                             </button>
                             <span class="w-[80px] h-full text-center leading-[44px]">{{
                                 quantity
-                                }}</span>
+                            }}</span>
                             <button @click="increaseQty"
                                 class="w-[40px] h-full cursor-pointer rounded-[4px] flex justify-center items-center border-l border-black bg-highlight-2 text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -81,7 +76,8 @@
                             </button>
                         </div>
 
-                        <button class="bg-highlight-2 text-white w-[165px] h-full rounded-[4px]">
+                        <button
+                            class="bg-highlight-2 cursor-pointer hover:bg-highlight-2/85 text-white w-[165px] h-full rounded-[4px]">
                             Buy Now
                         </button>
 
@@ -145,22 +141,22 @@
                 </div>
             </div>
         </div>
-            <slider>
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-            </slider>
+        <slider>
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+        </slider>
     </MainLayout>
 </template>
 
@@ -170,12 +166,38 @@ const favorite = ref(false);
 const sizes = ref(["XS", "S", "M", "L", "XL"]);
 const selectedSize = ref("M");
 
+const images = ref([
+    "../../assets/g92-2-500x500 1.png",
+    '/assets/g92-2-500x500 2.png', '/assets/g92-2-500x500 3.png', '/assets/g92-2-500x500 1.png',
+]);
 const quantity = ref(2);
 const increaseQty = () => {
     quantity.value++;
 };
 const decreaseQty = () => {
     if (quantity.value > 1) quantity.value--;
+};
+const selectedImage = ref("/assets/g92-2-500x500 1.png");
+const showZoom = ref(false);
+const zoomX = ref(0);
+const zoomY = ref(0);
+const imageContainer : Ref<HTMLElement | null> = ref(null);
+const zoomScale = 2.5;
+
+const zoomStyle = computed(() => ({
+    transform: `scale(${zoomScale})`,
+    transformOrigin: `${zoomX.value}% ${zoomY.value}%`,
+}));
+
+const handleMouseMove = (event : MouseEvent) => {
+    if (!imageContainer.value) return;
+
+    const { left, top, width, height } = imageContainer.value.getBoundingClientRect();
+    const x = ((event.clientX - left) / width) * 100;
+    const y = ((event.clientY - top) / height) * 100;
+
+    zoomX.value = x ;
+    zoomY.value = y;
 };
 </script>
 
