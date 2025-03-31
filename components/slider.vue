@@ -1,6 +1,6 @@
 <template >
   <div
-    class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 p-2 mt-2 rounded-xl w-full flex flex-col justify-around  h-fit mx-auto"
+    class="c p-2 mt-2 rounded-xl w-full flex flex-col justify-around  h-fit mx-auto"
   >
     <div class="flex items-center justify-between">
       <h3

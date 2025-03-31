@@ -1,6 +1,6 @@
 <template>
     <MainLayout>
-        <div class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 mx-auto min-h-lvh flex flex-wrap gap-5">
+        <div class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 mx-auto h-fit flex justify-evenly flex-wrap gap-5">
             <div
                 class="flex justify-between sm:flex-col md:flex-row items-center gap-2.5 p-2 w-full max-w-[670px] sm:w-full sm:h-auto md:h-[600px]">
 
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full h-[600px] flex flex-col items-center max-w-[670px]">
+            <div class="w-fit h-[600px] flex flex-col items-center ">
                 <div class="w-[400px] h-fit">
                     <div class="h-fit w-full flex flex-col gap-2">
                         <h3 class="text-[24px] font-[600] w-full p-1 text-start truncate text-wrap">
@@ -56,7 +56,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-4 mt-4 w-full justify-between h-[44px]">
+                    <div class="flex items-center space-x-4 mt-4 w-full  justify-between h-[44px]">
                         <div class="flex items-center rounded overflow-hidden w-[159px] h-full border">
                             <button @click="decreaseQty"
                                 class="border-r w-[40px] cursor-pointer flex items-center justify-center h-full rounded-[4px]">
@@ -76,12 +76,12 @@
                             </button>
                         </div>
 
-                        <button
+                        <button @click="Willing()"
                             class="bg-highlight-2 cursor-pointer hover:bg-highlight-2/85 text-white w-[165px] h-full rounded-[4px]">
                             Buy Now
                         </button>
 
-                        <button class="border size-[40px] rounded flex items-center justify-center"
+                        <button class="border size-[44px] rounded flex items-center justify-center"
                             @click="favorite = !favorite">
                             <div v-if="!favorite" class="relative inline-flex items-center justify-center p-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -140,6 +140,109 @@
                     </div>
                 </div>
             </div>
+            <div v-if="WillingToBuy"
+                class="fixed inset-0 bg-black/60 z-10 flex justify-center items-center p-4">
+                <button
+                    class=" absolute cursor-pointer top-5 right-5 bg-primary hover:bg-primary-dark2 duration-300 size-[44px] rounded flex items-center justify-center"
+                    @click="WillingToBuy = false">
+                    <div v-if="true" class="relative inline-flex items-center justify-center p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="m12 12.727l-3.592 3.592q-.16.16-.354.15T7.7 16.3t-.16-.364q0-.203.16-.363L11.273 12L7.681 8.433q-.16-.16-.15-.364t.169-.363t.364-.16q.203 0 .363.16L12 11.298l3.567-3.592q.16-.16.354-.16t.354.16q.166.165.166.366t-.166.36L12.702 12l3.592 3.592q.16.16.16.354t-.16.354q-.165.166-.366.166t-.36-.166z" />
+                        </svg>
+                    </div>
+                </button>
+                <div
+                ref="buyModel"
+                    class="bg-gray-100 p-6 rounded-md shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-4xl flex flex-col space-y-6 max-h-[79vh] overflow-auto">
+                    <h3 class="font-[500] text-[36px] leading-[30px] capitalize">billing details</h3>
+                    <div
+                        class="w-full h-full flex justify-between lg:flex-row flex-col-reverse gap-5 mt-5 items-center">
+                        <form class="flex flex-col  md:w-fit lg:w-fit w-full  h-full">
+                            <div class="grid md:grid-cols-2 md:gap-6">
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input type="text" name="floating_first_name" id="floating_first_name"
+                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        placeholder=" " required />
+                                    <label for="floating_first_name"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First
+                                        name</label>
+                                </div>
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input type="text" name="floating_last_name" id="floating_last_name"
+                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        placeholder=" " required />
+                                    <label for="floating_last_name"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last
+                                        name</label>
+                                </div>
+                            </div>
+                            <div class="relative z-0 w-full mb-5 group">
+                                <input type="email" name="floating_email" id="floating_email"
+                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " required />
+                                <label for="floating_email"
+                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
+                                    address</label>
+                            </div>
+                            <div class="relative z-0 w-full mb-5 group">
+                                <input type="email" name="floating_email" id="floating_email"
+                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " required />
+                                <label for="floating_email"
+                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">address</label>
+                            </div>
+                            <div class="relative z-0 w-full mb-5 group">
+                                <input type="email" name="floating_email" id="floating_email"
+                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " required />
+                                <label for="floating_email"
+                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">town/city</label>
+                            </div>
+
+                            <div class="relative z-0 w-full mb-5 group">
+                                <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone"
+                                    id="floating_phone"
+                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " required />
+                                <label for="floating_phone"
+                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone
+                                    number</label>
+                            </div>
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                        </form>
+                        <div class="max-w-sm w-full bg-white shadow-lg rounded-lg p-5">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
+                            <div class="flex items-center justify-between border-b pb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-16 h-16 flex-shrink-0">
+                                        <img class="w-full h-full object-contain" src="/assets/g92-2-500x500 1.png"
+                                            alt="Product Image">
+                                    </div>
+                                    <span class="text-gray-700 font-medium text-sm sm:text-base">John Doe</span>
+                                </div>
+                                <span class="text-gray-900 font-semibold text-sm sm:text-base">$1750</span>
+                            </div>
+                            <div class="space-y-2 mt-4">
+                                <div class="flex justify-between text-sm sm:text-base">
+                                    <span class="text-gray-600 font-medium">Subtotal:</span>
+                                    <span class="text-gray-900 font-semibold">$1750</span>
+                                </div>
+                                <div class="flex justify-between text-sm sm:text-base">
+                                    <span class="text-gray-600 font-medium">Shipping:</span>
+                                    <span class="text-green-600 font-semibold">Free</span>
+                                </div>
+                                <div class="flex justify-between border-t pt-2 text-lg">
+                                    <span class="text-gray-700 font-semibold">Total:</span>
+                                    <span class="text-gray-900 font-bold">$1750</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
         <slider>
             <Product />
@@ -157,6 +260,7 @@
             <Product />
             <Product />
         </slider>
+
     </MainLayout>
 </template>
 
@@ -181,7 +285,7 @@ const selectedImage = ref("/assets/g92-2-500x500 1.png");
 const showZoom = ref(false);
 const zoomX = ref(0);
 const zoomY = ref(0);
-const imageContainer : Ref<HTMLElement | null> = ref(null);
+const imageContainer: Ref<HTMLElement | null> = ref(null);
 const zoomScale = 2.5;
 
 const zoomStyle = computed(() => ({
@@ -189,16 +293,30 @@ const zoomStyle = computed(() => ({
     transformOrigin: `${zoomX.value}% ${zoomY.value}%`,
 }));
 
-const handleMouseMove = (event : MouseEvent) => {
+const handleMouseMove = (event: MouseEvent) => {
     if (!imageContainer.value) return;
 
     const { left, top, width, height } = imageContainer.value.getBoundingClientRect();
     const x = ((event.clientX - left) / width) * 100;
     const y = ((event.clientY - top) / height) * 100;
 
-    zoomX.value = x ;
+    zoomX.value = x;
     zoomY.value = y;
 };
+
+
+const WillingToBuy = ref(true);
+const buyModel = ref(null);
+const Willing = () => {
+    if (quantity.value > 0 && selectedSize) {
+        WillingToBuy.value = true;
+    } else {
+        alert("Please select size and quantity");
+    }
+}
+onClickOutside(buyModel, () => {
+    WillingToBuy.value = false;
+});
 </script>
 
 <style scoped></style>
