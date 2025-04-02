@@ -66,7 +66,7 @@
                             </button>
                             <span class="w-[80px] h-full text-center leading-[44px]">{{
                                 quantity
-                            }}</span>
+                                }}</span>
                             <button @click="increaseQty"
                                 class="w-[40px] h-full cursor-pointer rounded-[4px] flex justify-center items-center border-l border-black bg-highlight-2 text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
@@ -140,8 +140,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="WillingToBuy"
-                class="fixed inset-0 bg-black/60 z-10 flex justify-center items-center p-4">
+            <div v-if="WillingToBuy" class="fixed inset-0 bg-black/60 z-10 flex justify-center items-center p-4">
                 <button
                     class=" absolute cursor-pointer top-5 right-5 bg-primary hover:bg-primary-dark2 duration-300 size-[44px] rounded flex items-center justify-center"
                     @click="WillingToBuy = false">
@@ -152,8 +151,7 @@
                         </svg>
                     </div>
                 </button>
-                <div
-                ref="buyModel"
+                <div ref="buyModel"
                     class="bg-gray-100 p-6 rounded-md shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-4xl flex flex-col space-y-6 max-h-[79vh] overflow-auto">
                     <h3 class="font-[500] text-[36px] leading-[30px] capitalize">billing details</h3>
                     <div
@@ -212,34 +210,37 @@
                             <button type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                         </form>
-                        <div class="max-w-sm w-full bg-white shadow-lg rounded-lg p-5">
-                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
-                            <div class="flex items-center justify-between border-b pb-3">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-16 h-16 flex-shrink-0">
-                                        <img class="w-full h-full object-contain" src="/assets/g92-2-500x500 1.png"
-                                            alt="Product Image">
+                        <div class="max-w-sm flex justify-end items-center">
+                            <div class="w-[470px] h-fit border border-gray-300 rounded-md p-6">
+                                <h2 class="text-lg font-bold text-gray-900 mb-4">Order Summary</h2>
+                                <div class="flex items-center justify-between  pb-2">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-16 h-16 flex-shrink-0">
+                                            <img class="w-full h-full object-contain" src="/assets/g92-2-500x500 1.png"
+                                                alt="Product Image">
+                                        </div>
+                                        <span class="text-gray-700 font-medium text-sm sm:text-base">John Doe</span>
                                     </div>
-                                    <span class="text-gray-700 font-medium text-sm sm:text-base">John Doe</span>
+                                    <span class="text-gray-900 font-semibold text-sm sm:text-base">$1750</span>
                                 </div>
-                                <span class="text-gray-900 font-semibold text-sm sm:text-base">$1750</span>
-                            </div>
-                            <div class="space-y-2 mt-4">
-                                <div class="flex justify-between text-sm sm:text-base">
-                                    <span class="text-gray-600 font-medium">Subtotal:</span>
-                                    <span class="text-gray-900 font-semibold">$1750</span>
-                                </div>
-                                <div class="flex justify-between text-sm sm:text-base">
-                                    <span class="text-gray-600 font-medium">Shipping:</span>
-                                    <span class="text-green-600 font-semibold">Free</span>
-                                </div>
-                                <div class="flex justify-between border-t pt-2 text-lg">
-                                    <span class="text-gray-700 font-semibold">Total:</span>
-                                    <span class="text-gray-900 font-bold">$1750</span>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between text-sm sm:text-base border-t pt-3">
+                                        <span class="text-gray-600 ">Subtotal:</span>
+                                        <span class="text-gray-900">$1750</span>
+                                    </div>
+
+                                    <div class="flex justify-between text-sm sm:text-base border-t pt-3">
+                                        <span class="text-gray-600">Shipping:</span>
+                                        <span class="text-gray-900">Free</span>
+                                    </div>
+
+                                    <div class="flex justify-between text-lg  border-t pt-3">
+                                        <span class="text-gray-700">Total:</span>
+                                        <span class="text-gray-900">$1750</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
