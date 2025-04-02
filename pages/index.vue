@@ -1,7 +1,12 @@
 <template>
   <MainLayout>
     <div>
-      <slider class="pg">
+      <slider :allowArrows="true" title="category" description="discover our categories" :Slider="true">
+        <category />
+        <category />
+        <category />
+        <category />
+        <category />
         <category />
         <category />
         <category />
@@ -11,7 +16,7 @@
         <category />
         <category />
       </slider>
-      <slider>
+      <slider :allowArrows="true" title="Products" description="discover our Products" :Slider="true">
         <Product />
         <Product />
         <Product />

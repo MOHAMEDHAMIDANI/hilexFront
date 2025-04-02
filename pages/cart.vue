@@ -1,6 +1,6 @@
 <template>
   <MainLayout>
-    <div class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 mx-auto h-fit flex justify-evenly flex-wrap gap-5">
+    <div class="container mx-auto h-fit flex justify-evenly flex-wrap gap-5">
       <div class="w-full h-full mt-1">
         <table class="w-full h-fit border-separate border-spacing-y-4">
           <tr class="w-full h-[72px] rounded-[4px] shadow-[0px_1px_13px_0px_#0000000D]">

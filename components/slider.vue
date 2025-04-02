@@ -4,16 +4,16 @@
   >
     <div class="flex items-center justify-between">
       <h3
-        class="text-2xl w-fit ml-10 relative after:content-[''] after:absolute after:w-5 after:h-10 after:rounded after:-left-8 after:-top-1 after:bg-highlight-2 text-primary-dark2"
+        class="text-2xl w-fit ml-10 capitalize relative after:content-[''] after:absolute after:w-5 after:h-10 after:rounded after:-left-8 after:-top-1 after:bg-highlight-2 text-highlight-dark"
       >
-        Products
+        {{ title }}
       </h3>
     </div>
     <div class="flex items-center justify-between">
       <h3 class="text-2xl w-fit px-2 py-4 capitalize text-black">
-        discover our products
+        {{ description }}
       </h3>
-      <div class="flex items-center justify-between w-[80px]">
+      <div v-if="allowArrows" class="flex items-center justify-between w-[80px]">
         <button
           @click="scrollRight"
           type="button"
@@ -64,7 +64,8 @@
     </div>
     <div
       ref="sliderRef"
-      class="w-full h-fit py-2 px-2 flex gap-[30px] items-center overflow-x-auto flex-nowrap no-scrollbar"
+      :class="Slider ? 'overflow-x-auto flex-nowrap no-scrollbar': 'flex-wrap  justify-around'"
+      class="w-full h-fit py-2 px-2 flex gap-[30px] items-center"
     >
       <slot></slot>
     </div>
@@ -78,7 +79,13 @@ const childrenCount = ref(0);
 const SliderWidth = ref(0);
 const childWidth = ref(0);
 const gap = ref(0);
-
+interface sliderProps {
+title : string;
+description : string;
+allowArrows : boolean;
+Slider : boolean;
+}
+  const Props = defineProps<sliderProps>()
 onMounted(() => {
   nextTick(() => {
     if (sliderRef.value) {

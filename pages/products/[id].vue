@@ -1,6 +1,6 @@
 <template>
     <MainLayout>
-        <div class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 mx-auto h-fit flex justify-evenly flex-wrap gap-5">
+        <div class="container mx-auto h-fit flex justify-evenly flex-wrap gap-5">
             <div
                 class="flex justify-between sm:flex-col md:flex-row items-center gap-2.5 p-2 w-full max-w-[670px] sm:w-full sm:h-auto md:h-[600px]">
 
@@ -245,7 +245,7 @@
                 </div>
             </div>
         </div>
-        <slider>
+        <slider title="related items" :-slider="false" :allow-arrows="false" description="">
             <Product />
             <Product />
             <Product />
