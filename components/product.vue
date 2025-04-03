@@ -19,8 +19,8 @@
         class="w-[34px] h-[76px] absolute top-[12px] left-[224px] flex flex-col justify-between items-center gap-[8px]"
       >
         <button
-          v-if="!favorite"
-          @click="favorite = !favorite"
+          v-if="!store.Fav.includes(product)"
+          @click="store.addToFav(product)"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
@@ -46,7 +46,7 @@
         </button>
         <button
           v-else
-          @click="favorite = !favorite"
+          @click="store.removeFromFav(product)"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
@@ -71,7 +71,7 @@
           </div>
         </button>
         <nuxtLink
-          :to="{ name: 'products-id', params: { id: 11 } }"
+          :to="{ name: 'products-id', params: { id: product.id } }"
           type="button"
           data-state="closed"
           data-grace-area-trigger=""
@@ -100,15 +100,15 @@
           class="w-[270px] h-[41px] cursor-pointer bg-black absolute top-[209px] rounded-t-[4px] flex justify-center items-center"
         >
           <h3
-            @click="addToCart = !addToCart"
-            v-if="!addToCart"
+            @click="store.addToCart(product)"
+            v-show="!store.cart.includes(product)"
             class="text-white w-full h-[24px] text-center capitalize"
           >
             add to cart
           </h3>
           <h3
-            @click="addToCart = !addToCart"
-            v-else
+            @click="store.removeFromCart(product)"
+            v-show="store.cart.includes(product)"
             class="text-white w-full text-center h-[24px] capitalize"
           >
             added to cart
@@ -118,7 +118,7 @@
 
       <div class="w-[190px] h-[190px]">
         <img
-          src="../assets/g92-2-500x500 1.png"
+          :src="product.image[0]"
           alt=""
           class="w-full h-full object-center"
         />
@@ -128,16 +128,17 @@
       <h3
         class="text-[16px] font-[500] w-full h-[24px] p-1 text-start truncate text-wrap"
       >
-        this is a title for the product
+        {{ product.productName }}
       </h3>
       <div
         class="flex items-center justify-start gap-[12px] w-full h-[24px] px-2"
       >
         <span class="text-[16px] font-[500] text-highlight-dark text-pretty"
-          >400 dz</span
+          >{{ product.price }}</span
         >
         <span class="text-[16px] font-[500] line-through text-gray-500/50"
-          >500 dz</span
+          >{{ product.price }}
+          </span
         >
       </div>
     </div>
@@ -145,9 +146,14 @@
 </template>
 
 <script setup lang="ts">
+import type { ProductType } from '~/types';
+const store = useFavCartStore();
 const show = ref(false);
-const favorite = ref(false);
-const addToCart = ref(false);
+interface ProductProps {
+  product: ProductType;
+}
+
+const { product } = defineProps<ProductProps>();
 </script>
 
 <style scoped>

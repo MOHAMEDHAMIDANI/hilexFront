@@ -28,6 +28,7 @@ export type ProductType = {
     description: string;
     stock: number;
     category: CategoryType;
+    quantity: number ;
 };
 
 export type OrderType = {

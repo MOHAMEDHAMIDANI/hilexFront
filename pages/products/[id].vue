@@ -246,20 +246,8 @@
             </div>
         </div>
         <slider title="related items" :-slider="false" :allow-arrows="false" description="">
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
+            <Product v-for="product in medicalProducts" :key="product.id" :product="product" />
+            <pre>{{ medicalProducts }}</pre>
         </slider>
 
     </MainLayout>

@@ -13,7 +13,7 @@
       <h3 class="text-2xl w-fit px-2 py-4 capitalize text-black">
         {{ description }}
       </h3>
-      <div v-if="allowArrows" class="flex items-center justify-between w-[80px]">
+      <div v-if="Slider" class="flex items-center justify-between w-[80px]">
         <button
           @click="scrollRight"
           type="button"
@@ -82,7 +82,6 @@ const gap = ref(0);
 interface sliderProps {
 title : string;
 description : string;
-allowArrows : boolean;
 Slider : boolean;
 }
   const Props = defineProps<sliderProps>()
@@ -100,9 +99,6 @@ onMounted(() => {
       const style = window.getComputedStyle(slider);
       const gapValue = style.columnGap || style.gap || "0px";
       gap.value = parseInt(gapValue);
-
-      console.log("Child Width:", childWidth.value);
-      console.log("Gap:", gap.value);
     }
   });
 });

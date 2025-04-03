@@ -1,29 +1,11 @@
 <template>
   <MainLayout>
     <div>
-      <slider :allowArrows="true" title="category" description="discover our categories" :Slider="true">
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
-        <category />
+      <slider title="category" description="discover our categories" :Slider="true">
+        <category v-for="product in medicalProducts" :key="product.id" :product="product"/>
       </slider>
-      <slider :allowArrows="true" title="Products" description="discover our Products" :Slider="true">
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+      <slider title="Products" description="discover our Products" :Slider="true">
+        <Product v-for="product in medicalProducts" :key="product.id" :product="product" />
       </slider>
     </div>
   </MainLayout>
