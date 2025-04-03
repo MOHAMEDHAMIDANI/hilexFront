@@ -5,23 +5,25 @@
                 class="flex justify-between sm:flex-col md:flex-row items-center gap-2.5 p-2 w-full max-w-[670px] sm:w-full sm:h-auto md:h-[600px]">
 
                 <div class="flex md:flex-col sm:flex-row  justify-center items-center md:h-[600px] sm:gap-2">
-                    <div v-for="(image, index) in images" :key="index" @click="selectedImage = image"
+                    <div v-for="(image, index) in product?.image" :key="index" @click="selectedImage = image"
                         :class="selectedImage === image ? 'border-2 border-highlight-2' : ''"
                         class="md:w-[170px] cursor-pointer md:h-[138px] hover:border-2 hover:border-highlight-2 sm:w-[120px] sm:h-[100px] flex justify-center shrink-0 items-center bg-[#F5F5F5] rounded-[4px]">
                         <div class="md:w-[112px] md:h-[97px] sm:w-[90px] sm:h-[75px]">
-                            <img src="../../assets/g92-2-500x500 1.png" alt="" class="w-full h-full object-contain" />
+                            <img :src="`/${image}`" alt="" class="w-full h-full object-contain" />
                         </div>
                     </div>
                 </div>
-                <div @mousemove="handleMouseMove($event)" @mouseenter="showZoom = true" @mouseleave="showZoom = false"
+                <div
                     class="md:h-[600px] relative md:w-[500px] sm:w-full sm:h-[300px] flex justify-center items-center bg-[#F5F5F5]">
-                    <div ref="imageContainer" class="max-w-[446px] max-h-[315px] sm:max-w-full sm:max-h-full">
-                        <img src="/assets/g92-2-500x500 1.png" alt="" class="w-full h-full object-contain" />
+                    <div @mousemove="handleMouseMove($event)" @mouseenter="showZoom = true"
+                        @mouseleave="showZoom = false" ref="imageContainer"
+                        class="max-w-[446px] max-h-[315px] flex justify-center items-center sm:w-full sm:h-full">
+                        <img :src="`/${selectedImage}`" alt="" class="w-full h-full object-contain" />
                     </div>
                     <div v-if="showZoom"
                         class="absolute w-[200px] h-[200px] border border-gray-400 bg-white shadow-lg overflow-hidden"
                         :style="{ top: zoomY + 'px', left: zoomX + 'px' }">
-                        <img src="/assets/g92-2-500x500 1.png" class="absolute" :style="zoomStyle" />
+                        <img :src="`/${selectedImage}`" class="absolute" :style="zoomStyle" />
                     </div>
                 </div>
             </div>
@@ -29,26 +31,23 @@
                 <div class="w-[400px] h-fit">
                     <div class="h-fit w-full flex flex-col gap-2">
                         <h3 class="text-[24px] font-[600] w-full p-1 text-start truncate text-wrap">
-                            this is a title for the product
+                            {{ product?.productName }}
                         </h3>
                         <h3 class="text-[16px] font-[400] text-highlight-dark text-pretty">
-                            in stock
+                            {{ product?.stock ? product?.stock : 0 }} in stock
                         </h3>
                         <h4 class="text-[24px] font-[400] text-highlight-dark text-pretty">
-                            <span>DZD</span> 1400
+                            <span>DZD</span> {{ product?.price }}
                         </h4>
                         <p class="h-fit w-full text-pretty capitalize text-[14px] font-[400] leading-[21px]">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
-                            esse sequi harum ipsa eos optio quam ad aperiam assumenda neque
-                            quasi debitis eius deleniti, praesentium, hic nesciunt! Animi,
-                            deserunt unde?
+                            {{ product?.description }}
                         </p>
                         <hr />
                     </div>
                     <div class="w-full h-[40px] flex items-center gap-4 mt-4">
                         <h3 class="font-[400] text-20px leading-[40px] h-full">Size:</h3>
                         <div class="flex space-x-2 items-center w-fit h-full">
-                            <button v-for="size in sizes" :key="size"
+                            <button v-for="size in product?.size" :key="size"
                                 class="size-[32px] border cursor-pointer text-center leading-[32px] rounded"
                                 :class="{ 'bg-highlight-2 text-white': selectedSize === size }"
                                 @click="selectedSize = size">
@@ -56,18 +55,28 @@
                             </button>
                         </div>
                     </div>
+                    <div class="w-full h-[40px] flex items-center gap-4 mt-4">
+                        <h3 class="font-[400] text-20px leading-[40px] h-full">Size:</h3>
+                        <div class="flex space-x-2 items-center w-fit h-full">
+                            <button v-for="color in product?.color" :key="color" :style="{ backgroundColor: color }"
+                                class="size-[32px] border cursor-pointer text-center leading-[32px] rounded-full"
+                                :class="{ 'outline-highlight-2 outline-2 text-white': selectedColor === color }"
+                                @click="selectedColor = color">
+                            </button>
+                        </div>
+                    </div>
                     <div class="flex items-center space-x-4 mt-4 w-full  justify-between h-[44px]">
                         <div class="flex items-center rounded overflow-hidden w-[159px] h-full border">
-                            <button @click="decreaseQty"
+                            <button @click="quantity > 1 ? quantity-- : quantity = 1"
                                 class="border-r w-[40px] cursor-pointer flex items-center justify-center h-full rounded-[4px]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="currentColor" d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2" />
                                 </svg>
                             </button>
-                            <span class="w-[80px] h-full text-center leading-[44px]">{{
-                                quantity
-                                }}</span>
-                            <button @click="increaseQty"
+                            <span class="w-[80px] h-full text-center leading-[44px]">
+                                {{ quantity }}
+                            </span>
+                            <button @click="quantity ? quantity++ : quantity = 1"
                                 class="w-[40px] h-full cursor-pointer rounded-[4px] flex justify-center items-center border-l border-black bg-highlight-2 text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="currentColor"
@@ -81,9 +90,9 @@
                             Buy Now
                         </button>
 
-                        <button class="border size-[44px] rounded flex items-center justify-center"
-                            @click="favorite = !favorite">
-                            <div v-if="!favorite" class="relative inline-flex items-center justify-center p-2">
+                        <button class="border size-[44px] rounded flex items-center justify-center">
+                            <div @click="store.addToFav(product)" v-if="!store.Fav.includes(product)"
+                                class="relative inline-flex items-center justify-center p-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -92,7 +101,8 @@
                                 </svg>
                             </div>
 
-                            <div v-else class="relative inline-flex items-center justify-center p-2 text-highlight-2">
+                            <div v-else @click="store.removeFromFav(product)"
+                                class="relative inline-flex items-center justify-center p-2 text-highlight-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -216,17 +226,19 @@
                                 <div class="flex items-center justify-between  pb-2">
                                     <div class="flex items-center space-x-3">
                                         <div class="w-16 h-16 flex-shrink-0">
-                                            <img class="w-full h-full object-contain" src="/assets/g92-2-500x500 1.png"
+                                            <img class="w-full h-full object-contain" :src="`/${product?.image[0]}`"
                                                 alt="Product Image">
                                         </div>
-                                        <span class="text-gray-700 font-medium text-sm sm:text-base">John Doe</span>
+                                        <span class="text-gray-700 font-medium text-sm sm:text-base">{{
+                                            product?.productName }}</span>
                                     </div>
-                                    <span class="text-gray-900 font-semibold text-sm sm:text-base">$1750</span>
+                                    <span class="text-gray-900 font-semibold text-sm sm:text-base">DZD {{ product?.price
+                                        }}</span>
                                 </div>
                                 <div class="space-y-4">
                                     <div class="flex justify-between text-sm sm:text-base border-t pt-3">
                                         <span class="text-gray-600 ">Subtotal:</span>
-                                        <span class="text-gray-900">$1750</span>
+                                        <span class="text-gray-900">{{ product?.price * quantity }}</span>
                                     </div>
 
                                     <div class="flex justify-between text-sm sm:text-base border-t pt-3">
@@ -236,7 +248,7 @@
 
                                     <div class="flex justify-between text-lg  border-t pt-3">
                                         <span class="text-gray-700">Total:</span>
-                                        <span class="text-gray-900">$1750</span>
+                                        <span class="text-gray-900">DZD {{ product?.price * quantity }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -247,30 +259,19 @@
         </div>
         <slider title="related items" :-slider="false" :allow-arrows="false" description="">
             <Product v-for="product in medicalProducts" :key="product.id" :product="product" />
-            <pre>{{ medicalProducts }}</pre>
         </slider>
-
     </MainLayout>
 </template>
 
 <script setup lang="ts">
+import Product from "~/components/product.vue";
 import MainLayout from "~/layouts/mainLayout.vue";
-const favorite = ref(false);
-const sizes = ref(["XS", "S", "M", "L", "XL"]);
-const selectedSize = ref("M");
-
-const images = ref([
-    "../../assets/g92-2-500x500 1.png",
-    '/assets/g92-2-500x500 2.png', '/assets/g92-2-500x500 3.png', '/assets/g92-2-500x500 1.png',
-]);
-const quantity = ref(2);
-const increaseQty = () => {
-    quantity.value++;
-};
-const decreaseQty = () => {
-    if (quantity.value > 1) quantity.value--;
-};
-const selectedImage = ref("/assets/g92-2-500x500 1.png");
+import type { ProductType } from "~/types";
+const store = useFavCartStore();
+const quantity = ref(0);
+const selectedSize = ref();
+const selectedImage = ref<string | undefined>('');
+const selectedColor = ref<string | undefined>('');
 const showZoom = ref(false);
 const zoomX = ref(0);
 const zoomY = ref(0);
@@ -294,10 +295,10 @@ const handleMouseMove = (event: MouseEvent) => {
 };
 
 
-const WillingToBuy = ref(true);
+const WillingToBuy = ref(false);
 const buyModel = ref(null);
 const Willing = () => {
-    if (quantity.value > 0 && selectedSize) {
+    if (selectedSize) {
         WillingToBuy.value = true;
     } else {
         alert("Please select size and quantity");
@@ -306,6 +307,16 @@ const Willing = () => {
 onClickOutside(buyModel, () => {
     WillingToBuy.value = false;
 });
+const product = ref<ProductType | undefined>(undefined);
+onBeforeMount(() => {
+    const id = useRoute().params.id;
+    console.log(id);
+    product.value = medicalProducts.find((product) => product.id == id);
+    console.log(product);
+    selectedSize.value = product.value?.size;
+    selectedImage.value = product.value?.image[0];
+    quantity.value = product.value?.quantity;
+})
 </script>
 
 <style scoped></style>

@@ -9,10 +9,19 @@
             <th class="capitalize leading-[24px] text-[16px] font-[400]">quantity</th>
             <th class="capitalize leading-[24px] text-[16px] font-[400]">subtotal</th>
           </tr>
-          <tr v-for="product in store.cart" :key="product.id" class="w-full h-[72px] rounded-[4px] shadow-[0px_1px_13px_0px_#0000000D]">
-            <td class="w-1/4 h-full ">
-              <div class="flex items-center space-x-3  w-fit mx-auto">
-                <div class="w-10 h-10 flex-shrink-0">
+          <tr v-for="product in store.cart" :key="product.id"
+            class="w-full h-[72px] rounded-[4px] shadow-[0px_1px_13px_0px_#0000000D]">
+            <td class="w-1/4 h-full group">
+              <div class="flex items-center space-x-3 w-fit mx-auto">
+                <div class="w-10 h-10 flex-shrink-0 relative">
+                  <div
+                  @click="store.removeFromCart(product)"
+                    class="absolute -top-1.5 cursor-pointer hidden group-hover:flex hover:bg-highlight-dark duration-200 -left-5 size-[24px] text-white bg-highlight-2 justify-center items-center rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                      <path fill="currentColor"
+                        d="m12 13.4l-2.917 2.925q-.277.275-.704.275t-.704-.275q-.275-.275-.275-.7t.275-.7L10.6 12L7.675 9.108Q7.4 8.831 7.4 8.404t.275-.704q.275-.275.7-.275t.7.275L12 10.625L14.892 7.7q.277-.275.704-.275t.704.275q.3.3.3.713t-.3.687L13.375 12l2.925 2.917q.275.277.275.704t-.275.704q-.3.3-.712.3t-.688-.3z" />
+                    </svg>
+                  </div>
                   <img class="w-full h-full object-contain" :src="product.image[0]" alt="Product Image">
                 </div>
                 <span class="text-gray-700 font-medium text-sm sm:text-base">{{ product.productName }}</span>
@@ -25,23 +34,21 @@
               <div
                 class="flex items-center border border-gray-400 rounded-md py-2 px-3 w-[72px] h-[44px] justify-between mx-auto">
                 <span class="text-lg">{{ product.quantity < 10 ? "0" + product.quantity : product.quantity }}</span>
-                <div class="flex flex-col items-center justify-between  w-[16px] h-[32px]">
-                  <button 
-                  @click="store.incrementQuantity(product)"
-                    class="text-sm focus:outline-none cursor-pointer h-1/2 w-full flex justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-                      <path fill="currentColor"
-                        d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275z" />
-                    </svg>
-                  </button>
-                  <button
-                  @click="store.decrementQuantity(product)"
-                    class="text-sm focus:outline-none cursor-pointer h-1/2 w-full flex justify-center items-center"><svg
-                      xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-                      <path fill="currentColor"
-                        d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275t.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062" />
-                    </svg></button>
-                </div>
+                    <div class="flex flex-col items-center justify-between  w-[16px] h-[32px]">
+                      <button @click="store.incrementQuantity(product)"
+                        class="text-sm focus:outline-none cursor-pointer h-1/2 w-full flex justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="m12 10.8l-3.9 3.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.6-4.6q.3-.3.7-.3t.7.3l4.6 4.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275z" />
+                        </svg>
+                      </button>
+                      <button @click="store.decrementQuantity(product)"
+                        class="text-sm focus:outline-none cursor-pointer h-1/2 w-full flex justify-center items-center"><svg
+                          xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                          <path fill="currentColor"
+                            d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275t.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062" />
+                        </svg></button>
+                    </div>
               </div>
             </td>
             <td class="w-1/4 h-full text-center">
@@ -62,7 +69,8 @@
             <div class="space-y-4">
               <div class="flex justify-between text-sm sm:text-base">
                 <span class="text-gray-600 ">Subtotal:</span>
-                <span class="text-gray-900">DZD {{ store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
+                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
+                  product.quantity, 0) }}</span>
               </div>
 
               <div class="flex justify-between text-sm sm:text-base border-t pt-3">
@@ -72,7 +80,8 @@
 
               <div class="flex justify-between text-lg  border-t pt-3">
                 <span class="text-gray-700">Total:</span>
-                <span class="text-gray-900">DZD {{ store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
+                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
+                  product.quantity, 0) }}</span>
               </div>
             </div>
 
@@ -170,7 +179,8 @@
               <div class="space-y-4">
                 <div class="flex justify-between text-sm sm:text-base border-t pt-3">
                   <span class="text-gray-600 ">Subtotal:</span>
-                  <span class="text-gray-900">DZD {{ store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
+                  <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
+                    product.quantity, 0) }}</span>
                 </div>
 
                 <div class="flex justify-between text-sm sm:text-base border-t pt-3">
@@ -180,7 +190,8 @@
 
                 <div class="flex justify-between text-lg  border-t pt-3">
                   <span class="text-gray-700">Total:</span>
-                  <span class="text-gray-900">DZD {{ store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
+                  <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
+                    product.quantity, 0) }}</span>
                 </div>
               </div>
             </div>
@@ -193,7 +204,7 @@
 
 <script setup lang="ts">
 import MainLayout from "~/layouts/mainLayout.vue";
-  const store = useFavCartStore();
+const store = useFavCartStore();
 const quantity = ref(2);
 const selectedSize = ref("M");
 const WillingToBuy = ref(false);
