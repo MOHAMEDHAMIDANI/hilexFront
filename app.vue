@@ -1,5 +1,5 @@
 <template>
-  <div class=" w-full h-screen">
+  <div class=" w-full h-full  bg-white">
     <MainLoader />
     <nuxtPage/>
   </div>

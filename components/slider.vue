@@ -1,14 +1,19 @@
 <template >
   <div
-    class="xl:w-11/12 lg:w-8/12 md:w-9/12 sm:w-11/12 rounded-xl w-full flex flex-col justify-around h-[460px] bg-red-00 mx-auto"
+    class="c p-2 mt-2 rounded-xl w-full flex flex-col justify-around  h-fit mx-auto"
   >
     <div class="flex items-center justify-between">
       <h3
-        class="text-2xl w-fit ml-10 relative after:content-[''] after:absolute after:w-5 after:h-10 after:rounded after:-left-8 after:-top-1 after:bg-highlight-2 text-primary-dark2"
+        class="text-2xl w-fit ml-10 capitalize relative after:content-[''] after:absolute after:w-5 after:h-10 after:rounded after:-left-8 after:-top-1 after:bg-highlight-2 text-highlight-dark"
       >
-        Products
+        {{ title }}
       </h3>
-      <div class="flex items-center justify-between w-[80px]">
+    </div>
+    <div class="flex items-center justify-between">
+      <h3 class="text-2xl w-fit px-2 py-4 capitalize text-black">
+        {{ description }}
+      </h3>
+      <div v-if="Slider" class="flex items-center justify-between w-[80px]">
         <button
           @click="scrollRight"
           type="button"
@@ -59,10 +64,12 @@
     </div>
     <div
       ref="sliderRef"
-      class="w-full h-[400px] p-2 flex gap-[30px] items-center overflow-x-auto flex-nowrap no-scrollbar"
+      :class="Slider ? 'overflow-x-auto flex-nowrap no-scrollbar': 'flex-wrap  justify-around'"
+      class="w-full h-fit py-2 px-2 flex gap-[30px] items-center"
     >
       <slot></slot>
     </div>
+
   </div>
 </template>
 
@@ -72,7 +79,12 @@ const childrenCount = ref(0);
 const SliderWidth = ref(0);
 const childWidth = ref(0);
 const gap = ref(0);
-
+interface sliderProps {
+title : string;
+description : string;
+Slider : boolean;
+}
+  const Props = defineProps<sliderProps>()
 onMounted(() => {
   nextTick(() => {
     if (sliderRef.value) {
@@ -87,9 +99,6 @@ onMounted(() => {
       const style = window.getComputedStyle(slider);
       const gapValue = style.columnGap || style.gap || "0px";
       gap.value = parseInt(gapValue);
-
-      console.log("Child Width:", childWidth.value);
-      console.log("Gap:", gap.value);
     }
   });
 });
@@ -106,7 +115,7 @@ const scrollRight = () => {
     left: (sliderRef.value?.scrollLeft || 0) - childWidth.value - gap.value,
     behavior: "smooth",
   });
-}
+};
 </script>
 
 <style scoped>
