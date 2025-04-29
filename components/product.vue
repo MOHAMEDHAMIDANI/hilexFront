@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[270px] h-[350px] flex-shrink-0 rounded flex flex-col justify-between items-center overflow-hidden">
+  <div class="w-[270px] mx-2 h-[350px] flex-shrink-0 rounded flex flex-col justify-between items-center overflow-hidden">
     <div class="w-full h-[250px] bg-[#F5F5F5] flex justify-center items-center relative cursor-pointer"
       @mouseenter="show = true" @mouseleave="show = false">
       <div
