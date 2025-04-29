@@ -233,7 +233,7 @@
                                             product?.productName }}</span>
                                     </div>
                                     <span class="text-gray-900 font-semibold text-sm sm:text-base">DZD {{ product?.price
-                                        }}</span>
+                                    }}</span>
                                 </div>
                                 <div class="space-y-4">
                                     <div class="flex justify-between text-sm sm:text-base border-t pt-3">
