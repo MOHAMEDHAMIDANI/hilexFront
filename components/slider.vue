@@ -64,8 +64,9 @@
     </div>
     <div
       ref="sliderRef"
-      :class="Slider ? 'overflow-x-auto flex-nowrap no-scrollbar': 'flex-wrap  justify-around'"
-      class="w-full h-fit py-2 px-2 flex gap-[30px] items-center"
+      :class="[Slider ? 'overflow-x-auto flex-nowrap no-scrollbar': 'flex-wrap  justify-around']"
+      class="w-full h-fit py-2 px-2 flex  items-center"
+      
     >
       <slot></slot>
     </div>
