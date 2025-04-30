@@ -113,7 +113,7 @@
 
           <button
             type="submit"
-            class="text-white w-[215px] h-[56px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm mt-4"
+            class="text-white w-[215px] h-[56px] bg-primary hover:bg-primary-dark focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm mt-4"
           >
             Send Message
           </button>

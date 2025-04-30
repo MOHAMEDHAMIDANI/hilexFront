@@ -1,6 +1,5 @@
 <template>
     <MainLayout>
-        <!-- Hero Section with Background Image -->
         <div class="relative h-[60vh] bg-gradient-to-r from-blue-900 to-blue-700 overflow-hidden mb-12">
             <div class="absolute inset-0 bg-[url('/aboutUs/aboutUs_banner.jpg')] bg-cover bg-center opacity-20"></div>
             <div class="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
@@ -15,7 +14,6 @@
         </div>
 
         <div class="container mx-auto px-4">
-            <!-- Company Overview with Side Image -->
             <div class="bg-white rounded-xl shadow-2xl overflow-hidden mb-16">
                 <div class="flex flex-col md:flex-row">
                     <div class="md:w-1/2 p-8 md:p-12 space-y-6">
@@ -38,7 +36,6 @@
                 </div>
             </div>
 
-            <!-- Values Section -->
             <div class="mb-16">
                 <h2 class="text-3xl font-bold text-blue-900 text-center mb-8">Nos Valeurs</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -53,7 +50,6 @@
                 </div>
             </div>
 
-            <!-- Services Section -->
             <div class="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-xl p-12 mb-16">
                 <h2 class="text-3xl font-bold text-blue-900 text-center mb-12">Nos Services</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -71,7 +67,6 @@
                 </div>
             </div>
 
-            <!-- Partnerships Section -->
             <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-xl p-12 mb-16">
                 <h2 class="text-3xl font-bold text-blue-900 text-center mb-12">Nos Partenaires</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -86,7 +81,6 @@
                 </div>
             </div>
 
-            <!-- CTA Section with Background -->
             <div class="relative bg-gradient-to-r from-blue-900 to-blue-700 rounded-xl overflow-hidden py-16 mb-12">
                 <div class="absolute inset-0 bg-[url('/aboutUs/cta-background.jpg')] bg-cover bg-center opacity-20"></div>
                 <div class="relative z-10 text-center">
