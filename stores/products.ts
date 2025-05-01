@@ -1,6 +1,7 @@
-import type { ProductType } from "~/types";
+import type { Product } from "~/types";
 
-export const medicalProducts: ProductType[] = [
+
+export const medicalProducts: Product[] = [
     {
         id: "1",
         productName: "Digital Blood Pressure Monitor",
@@ -15,7 +16,7 @@ export const medicalProducts: ProductType[] = [
         color: ["White", "Black"],
         description: "A precise digital blood pressure monitor with a large screen and arrhythmia detection.",
         stock: 25,
-        category: { id: "1", categoryName: "Medical Equipment", product: [] },
+        category: { id: "1", categoryName: "Medical Equipment", },
         quantity: 1
     },
     {

@@ -1,0 +1,17 @@
+// plugins/axios.ts
+import axios from 'axios';
+
+export default defineNuxtPlugin(() => {
+    const axiosInstance = axios.create({
+        baseURL: 'http://localhost:3000',
+        withCredentials: false,
+    });
+    axiosInstance.interceptors.request.use(config => {
+        config.headers['Access-Control-Allow-Origin'] = '*';
+        return config;
+    });
+
+    return {
+        provide: { axios: axiosInstance },
+    };
+});

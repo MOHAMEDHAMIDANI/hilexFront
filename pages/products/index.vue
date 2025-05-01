@@ -44,9 +44,9 @@
                         <FilterSection title="Categories" :isOpen="openCategories"
                             @toggle="openCategories = !openCategories">
                             <div class="mt-4 w-full h-fit flex flex-wrap gap-2">
-                                <FilterPill v-for="category in categories" :key="category"
-                                    :active="selectedCategory === category" @click="selectCategory(category)">
-                                    {{ category }}
+                                <FilterPill v-for="category in categories" :key="category.id"
+                                    :active="selectedCategory === category.id" @click="selectCategory(category.id)">
+                                    {{ category.categoryName }}
                                 </FilterPill>
                             </div>
                         </FilterSection>
@@ -97,7 +97,7 @@
                 <div class="w-full">
                     <Slider :title="'Results'"
                         :description="searchQuery ? `Results for: ${searchQuery}` : 'Results based on your filters'">
-                        <Product v-for="product in filteredProducts" :key="product.id" :product="product"
+                        <Product v-for="product in ProductStore.Products" :key="product.id" :product="product"
                             :gap="false" />
                     </Slider>
                 </div>
@@ -110,15 +110,7 @@
 import MainLayout from "~/layouts/MainLayout.vue";
 import FilterSection from "~/components/FilterSection.vue";
 import FilterPill from "~/components/FilterPill.vue";
-
-interface Product {
-    id: string;
-    name: string;
-    category: string;
-    color: string;
-    size: string;
-    price: number;
-}
+import { type Product, type Category } from "~/types";
 
 const openFilters = ref(true);
 const openCategories = ref(true);
@@ -126,10 +118,20 @@ const openColors = ref(true);
 const openSizes = ref(true);
 const openPriceRange = ref(true);
 
-const categories = ['Health', 'Technology', 'Finance', 'Education', 'Entertainment'];
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', 'white'];
 const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+const categories = ref<Category[]>([]);
+const products = ref<Product[]>([]);
 
+onMounted(async () => {
+    products.value = await ProductStore.getProducts();
+    categories.value = await CategoryStore.getCategories();
+    console.log(categories)
+    console.log(products)
+
+});
+const ProductStore = useProductStore();
+const CategoryStore = useCategoryStore();
 const selectedCategory = ref<string | null>(null);
 const selectedColor = ref<string | null>(null);
 const selectedSize = ref<string | null>(null);
