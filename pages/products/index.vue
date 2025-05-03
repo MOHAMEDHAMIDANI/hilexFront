@@ -53,17 +53,17 @@
 
                         <FilterSection title="Colors" :isOpen="openColors" @toggle="openColors = !openColors">
                             <div class="mt-4 w-full h-fit flex flex-wrap gap-2">
-                                <div v-for="color in colors" :key="color"
+                                <div v-for="(color) in attributes.colors" :key="color.value"
                                     class="w-8 h-8 rounded-full cursor-pointer outline-1 outline-offset-2 transition-all"
-                                    :class="[selectedColor === color ? 'outline-black' : 'outline-white']"
-                                    :style="{ backgroundColor: color }" @click="selectColor(color)"
-                                    :aria-label="`Select ${color} color`" :title="color" />
+                                    :class="[selectedColor === color.value ? 'outline-black' : 'outline-white']"
+                                    :style="{ backgroundColor: color.hex }" @click="selectColor(color.value)"
+                                    :aria-label="`Select ${color} color`" :title="color.value" />
                             </div>
                         </FilterSection>
 
                         <FilterSection title="Sizes" :isOpen="openSizes" @toggle="openSizes = !openSizes">
                             <div class="mt-4 w-full h-fit flex flex-wrap gap-2">
-                                <FilterPill v-for="size in sizes" :key="size" :active="selectedSize === size"
+                                <FilterPill v-for="size in attributes.sizes" :key="size" :active="selectedSize === size"
                                     @click="selectSize(size)">
                                     {{ size }}
                                 </FilterPill>
@@ -73,13 +73,13 @@
                         <FilterSection title="Price Range" :isOpen="openPriceRange"
                             @toggle="openPriceRange = !openPriceRange">
                             <div class="mt-4 w-full">
-                                <input type="range" v-model="priceRange" min="0" max="1000" step="10"
+                                <input type="range" v-model="priceRange" :min="0" :max="attributes.maxPrice" step="10"
                                     aria-label="Price range filter"
                                     class="w-full mt-4 bg-gray-100 border border-gray-300 rounded-md h-2 focus:outline-none" />
                                 <div class="flex justify-between mt-2 text-sm">
                                     <span>$0</span>
                                     <span class="font-medium">${{ priceRange }}</span>
-                                    <span>$1000</span>
+                                    <span>${{ attributes.maxPrice }}</span>
                                 </div>
                             </div>
                         </FilterSection>
@@ -97,93 +97,101 @@
                 <div class="w-full">
                     <Slider :title="'Results'"
                         :description="searchQuery ? `Results for: ${searchQuery}` : 'Results based on your filters'">
-                        <Product v-for="product in ProductStore.Products" :key="product.id" :product="product"
-                            :gap="false" />
+                        <Product v-for="product in ProductStore.ProductsWithFilters" :key="product.id"
+                            :product="product" :gap="false" />
                     </Slider>
                 </div>
             </div>
         </div>
     </MainLayout>
 </template>
-
 <script setup lang="ts">
 import MainLayout from "~/layouts/MainLayout.vue";
 import FilterSection from "~/components/FilterSection.vue";
 import FilterPill from "~/components/FilterPill.vue";
 import { type Product, type Category } from "~/types";
-
+import { useRoute, useRouter } from 'vue-router';
+const route = useRoute();
+const router = useRouter();
 const openFilters = ref(true);
 const openCategories = ref(true);
 const openColors = ref(true);
 const openSizes = ref(true);
 const openPriceRange = ref(true);
-
-const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', 'white'];
-const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 const categories = ref<Category[]>([]);
 const products = ref<Product[]>([]);
+const attributes = ref<{ colors: { value: string; hex: string }[]; sizes: string[], maxPrice: number; }>({
+    colors: [],
+    sizes: [],
+    maxPrice: Infinity,
+});
+const selectedCategory = ref<string | null>(route.query.category as string || null);
+const selectedColor = ref<string | null>(route.query.color as string || null);
+const selectedSize = ref<string | null>(route.query.size as string || null);
+const priceRange = ref(Number(route.query.maxPrice) || attributes.value.maxPrice);
+const searchQuery = ref(route.query.q as string || "");
 
 onMounted(async () => {
-    products.value = await ProductStore.getProducts();
     categories.value = await CategoryStore.getCategories();
-    console.log(categories)
-    console.log(products)
-
+    const attrs = await ProductStore.getAttributes();
+    attributes.value = {
+        colors: attrs.colors,
+        sizes: attrs.sizes,
+        maxPrice: attrs.maxPrice
+    };
+    priceRange.value = Number(route.query.maxPrice) || Math.floor(attrs.maxPrice / 2);
+    await applyFilters();
 });
 const ProductStore = useProductStore();
 const CategoryStore = useCategoryStore();
-const selectedCategory = ref<string | null>(null);
-const selectedColor = ref<string | null>(null);
-const selectedSize = ref<string | null>(null);
-const priceRange = ref(500);
-const searchQuery = ref("");
-const medicalProducts = ref<Product[]>([]);
-const filteredProducts = ref<Product[]>([]);
+
 const selectCategory = (category: string) => {
     selectedCategory.value = selectedCategory.value === category ? null : category;
+    updateUrlAndSearch();
 };
 
 const selectColor = (color: string) => {
     selectedColor.value = selectedColor.value === color ? null : color;
+    updateUrlAndSearch();
 };
-
 const selectSize = (size: string) => {
     selectedSize.value = selectedSize.value === size ? null : size;
+    updateUrlAndSearch();
 };
-
 const handleSearch = () => {
-    console.log("Searching for:", searchQuery.value);
+    updateUrlAndSearch();
+};
+const updateUrlAndSearch = () => {
+    router.push({
+        query: {
+            q: searchQuery.value || undefined,
+            category: selectedCategory.value || undefined,
+            color: selectedColor.value || undefined,
+            size: selectedSize.value || undefined,
+            maxPrice: priceRange.value || undefined
+        }
+    });
     applyFilters();
 };
 
-const applyFilters = () => {
-    filteredProducts.value = medicalProducts.value.filter(product => {
-        const matchesSearch = !searchQuery.value ||
-            product.name.toLowerCase().includes(searchQuery.value.toLowerCase());
-
-        const matchesCategory = !selectedCategory.value ||
-            product.category === selectedCategory.value;
-
-        const matchesColor = !selectedColor.value ||
-            product.color === selectedColor.value;
-
-        const matchesSize = !selectedSize.value ||
-            product.size === selectedSize.value;
-
-        const matchesPrice = product.price <= priceRange.value;
-
-        return matchesSearch && matchesCategory && matchesColor && matchesSize && matchesPrice;
-    });
-
-    console.log('Filters applied', {
-        category: selectedCategory.value,
+const applyFilters = async () => {
+    const filters = {
+        productName: searchQuery.value,
+        categoryId: selectedCategory.value,
         color: selectedColor.value,
         size: selectedSize.value,
-        price: priceRange.value
-    });
+        maxPrice: priceRange.value
+    };
+
+    products.value = await ProductStore.getProductsWithFilters(filters);
 };
 
-onMounted(() => {
+watch(() => route.query, (newQuery) => {
+    selectedCategory.value = newQuery.category as string || null;
+    selectedColor.value = newQuery.color as string || null;
+    selectedSize.value = newQuery.size as string || null;
+    priceRange.value = Number(newQuery.maxPrice) || 500;
+    searchQuery.value = newQuery.q as string || "";
     applyFilters();
-});
+}, { immediate: true });
 </script>

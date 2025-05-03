@@ -1,14 +1,14 @@
 <template>
     <div class="w-full h-fit">
         <div>
-            <NavBar class="z-10"/>
+            <NavBar class="z-10" />
         </div>
         <div class="container mx-auto px-4 mt-5 w-full h-fit">
-            <slot/>
+            <slot />
         </div>
         <div>
             <ServiceHighlights />
-            <MyFooter/>
+            <MyFooter />
         </div>
     </div>
 </template>
@@ -18,9 +18,10 @@
 import MyFooter from '~/components/MyFooter.vue';
 import ServiceHighlights from '~/components/ServiceHighlights .vue';
 
-
+const productSotre = useProductStore();
+onMounted(() => {
+    productSotre.getProducts();
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

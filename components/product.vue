@@ -1,10 +1,12 @@
 <template>
-  <div class="w-[270px] mx-2 h-[350px] flex-shrink-0 rounded flex flex-col justify-between items-center overflow-hidden">
+  <div
+    class="w-[270px] mx-2 h-[350px] flex-shrink-0 rounded flex flex-col justify-between items-center overflow-hidden">
     <div class="w-full h-[250px] bg-[#F5F5F5] flex justify-center items-center relative cursor-pointer"
       @mouseenter="show = true" @mouseleave="show = false">
-      <div
+      <div v-if="product.hasPromotion"
         class="w-[55px] h-[25px] py-[4px] px-[12px] absolute top-[12px] left-[12px] bg-highlight-2 rounded-[4px] flex items-center justify-center">
-        <span class="w-[31px] h-[18px] text-white font-[400] text-[12px] line-[18px]">-40%</span>
+        <span class="w-[31px] h-[18px] text-white font-[400] text-[12px] line-[18px]">{{ product.promotionPercentage
+        }}</span>
       </div>
       <div
         class="w-[34px] h-[76px] absolute top-[12px] left-[224px] flex flex-col justify-between items-center gap-[8px]">
@@ -55,7 +57,8 @@
       </Transition>
 
       <div class="w-[190px] h-[190px]">
-        <img :src="`/${product.image[0]}`" alt="" class="w-full h-full object-center" />
+        <img :src="'http://localhost:3000/uploads/Product/' + product.image[0]" alt=""
+          class="w-full h-full object-center" />
       </div>
     </div>
     <div class="w-full h-[85px] flex justify-start items-start flex-col">
@@ -63,20 +66,29 @@
         {{ product.productName }}
       </h3>
       <div class="flex items-center justify-start gap-[12px] w-full h-[24px] px-2">
-        <span class="text-[16px] font-[500] text-highlight-dark text-pretty">{{ product.price }}</span>
-        <span class="text-[16px] font-[500] line-through text-gray-500/50">{{ product.price }}
-        </span>
+
+        <div v-if="product.hasPromotion" class="flex items-center gap-2">
+          <span class="text-lg font-semibold text-red-600">
+            {{ product.promotionPrice }}
+          </span>
+          <span class="text-sm font-medium line-through text-gray-400">
+            {{ product.price }}
+          </span>
+        </div>
+        <div v-else class="text-lg font-semibold text-gray-800">
+          {{ product.price }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ProductType } from '~/types';
+import type { Product } from '~/types';
 const store = useFavCartStore();
 const show = ref(false);
 interface ProductProps {
-  product: ProductType;
+  product: Product;
 }
 
 const { product } = defineProps<ProductProps>();

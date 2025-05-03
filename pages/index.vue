@@ -5,7 +5,7 @@
         <category v-for="product in medicalProducts" :key="product.id" :product="product"/>
       </slider>
       <slider title="Products" description="discover our Products" :Slider="true">
-        <Product v-for="product in medicalProducts" :key="product.id" :product="product" />
+        <Product v-for="product in productStore.Products" :key="product.id" :product="product" />
       </slider>
     </div>
   </MainLayout>
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import ServiceHighlights from "~/components/ServiceHighlights .vue";
 import MainLayout from "~/layouts/mainLayout.vue";
+const productStore = useProductStore();
 </script>
 
 <style scoped>
