@@ -27,20 +27,6 @@
           <Icon name="heroicons:arrow-left" class="mr-2 w-5 h-5" />
           Return to Homepage
         </nuxtLink>
-        <div class="mt-8 max-w-md mx-auto">
-          <div class="relative">
-            <input
-              type="text"
-              placeholder="Search our site..."
-              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-            <button
-              class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
-            >
-              <Icon name="heroicons:magnifying-glass" class="w-5 h-5" />
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </MainLayout>
