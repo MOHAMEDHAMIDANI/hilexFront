@@ -83,6 +83,20 @@ export const useProductStore = defineStore('product', {
             } finally {
                 this.loading = false;
             }
-        }
+        },
+        async getProductById(id: string) {
+            const { $axios } = useNuxtApp()
+            this.loading = true
+            this.error = null
+            try {
+                const response = await $axios.get(`/products/${id}`)
+                return response.data
+            } catch (err: any) {
+                this.error = err.response?.data?.message || 'Failed to fetch product'
+                throw err
+            } finally {
+                this.loading = false
+            }
+        },
     }
 })

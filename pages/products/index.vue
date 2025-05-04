@@ -1,25 +1,30 @@
 <template>
     <MainLayout>
         <div class="container mx-auto w-full my-4 px-4">
-            <div class="w-full min-h-[100px] max-w-[1000px] mx-auto my-4 flex items-center justify-center">
-                <form @submit.prevent="handleSearch" class="mx-auto w-full">
-                    <label for="product-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search
-                        products</label>
+            <div class="w-full max-w-3xl mx-auto my-6 px-4">
+                <form @submit.prevent="handleSearch" class="relative">
                     <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <input type="search" id="product-search" v-model="searchQuery"
-                            aria-label="Search medical products"
-                            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                            placeholder="Search by product name" required />
+                        <input id="product-search" v-model="searchQuery" type="search"
+                            aria-label="Search medical products" placeholder="Search medicines..."
+                            class="block w-full pl-10 pr-24 py-3 text-base text-gray-900 placeholder-gray-400 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-150"
+                            @input="handleSearch">
+                        <button v-if="searchQuery" type="button" @click="clearSearch"
+                            class="absolute inset-y-0 right-20 flex items-center pr-2 text-gray-400 hover:text-gray-600"
+                            aria-label="Clear search">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                         <button type="submit"
-                            class="text-white duration-300 cursor-pointer absolute end-2.5 bottom-2.5 outline-none bg-primary hover:bg-primary-dark font-medium rounded-lg text-sm px-4 py-2"
-                            aria-label="Submit search">
+                            class="absolute inset-y-0 right-0 flex items-center px-4 bg-primary text-white text-sm font-medium rounded-r-lg hover:bg-primary-dark transition-colors"
+                            aria-label="Search">
                             Search
                         </button>
                     </div>
@@ -187,11 +192,15 @@ const applyFilters = async () => {
 };
 
 watch(() => route.query, (newQuery) => {
-    selectedCategory.value = newQuery.category as string || null;
-    selectedColor.value = newQuery.color as string || null;
+    selectedCategory.value = newQuery.category as string || null; selectedColor.value = newQuery.color as string || null;
     selectedSize.value = newQuery.size as string || null;
     priceRange.value = Number(newQuery.maxPrice) || 500;
     searchQuery.value = newQuery.q as string || "";
     applyFilters();
 }, { immediate: true });
+
+const clearSearch = () => {
+    searchQuery.value = '';
+    handleSearch();
+};
 </script>

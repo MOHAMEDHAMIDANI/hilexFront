@@ -1,8 +1,9 @@
+<!-- pages/index.vue -->
 <template>
   <MainLayout>
     <div>
-      <slider title="category" description="discover our categories" :Slider="true">
-        <category v-for="product in medicalProducts" :key="product.id" :product="product"/>
+      <slider title="Categories" description="Discover our product categories" :slider="true">
+        <category v-for="category in categoryStore.categories" :key="category.id" :category="category" />
       </slider>
       <slider title="Products" description="discover our Products" :Slider="true">
         <Product v-for="product in productStore.Products" :key="product.id" :product="product" />
@@ -12,10 +13,12 @@
 </template>
 
 <script setup lang="ts">
-import ServiceHighlights from "~/components/ServiceHighlights .vue";
 import MainLayout from "~/layouts/mainLayout.vue";
 const productStore = useProductStore();
-</script>
+const categoryStore = useCategoryStore();
 
-<style scoped>
-</style>
+onMounted(() => {
+  productStore.getProducts();
+  categoryStore.getCategories();
+});
+</script>
