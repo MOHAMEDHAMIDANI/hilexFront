@@ -1,6 +1,61 @@
 <template>
     <MainLayout>
-        <div class="container mx-auto h-fit flex justify-evenly flex-wrap gap-5">
+        <div v-if="0" class="container mx-auto h-fit flex justify-evenly flex-wrap gap-5">
+            <div
+                class="flex justify-between sm:flex-col md:flex-row items-center gap-2.5 p-2 w-full max-w-[670px] sm:w-full sm:h-auto md:h-[600px]">
+                <div class="flex md:flex-col sm:flex-row justify-center items-center md:h-[600px] sm:gap-2">
+                    <div v-for="i in 4" :key="i"
+                        class="md:w-[170px] md:h-[138px] sm:w-[120px] sm:h-[100px] bg-gray-200 rounded-[4px] animate-pulse">
+                    </div>
+                </div>
+                <div
+                    class="md:h-[600px] relative md:w-[500px] sm:w-full sm:h-[300px] bg-gray-200 animate-pulse rounded-md">
+                </div>
+            </div>
+            <div class="w-fit h-[600px] flex flex-col items-center">
+                <div class="w-[400px] h-fit space-y-4">
+                    <div class="h-8 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="h-4 w-1/2 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="h-10 w-1/3 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
+                    <div class="h-4 w-2/3 bg-gray-200 rounded animate-pulse"></div>
+                    <div>
+                        <div class="h-5 w-1/4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                        <div class="flex gap-3">
+                            <div v-for="i in 3" :key="i" class="w-8 h-8 rounded-full bg-gray-200 animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="h-5 w-1/4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                        <div class="flex gap-2">
+                            <div v-for="i in 5" :key="i" class="w-12 h-12 bg-gray-200 rounded-md animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 mt-4">
+                        <div class="w-40 h-12 bg-gray-200 rounded animate-pulse"></div>
+                        <div class="w-40 h-12 bg-gray-200 rounded animate-pulse"></div>
+                        <div class="w-12 h-12 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                    <div class="w-full border rounded-md p-3 mt-4 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                                <div class="h-3 w-full bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                                <div class="h-3 w-full bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else class="container mx-auto h-fit flex justify-evenly flex-wrap gap-5">
             <div
                 class="flex justify-between sm:flex-col md:flex-row items-center gap-2.5 p-2 w-full max-w-[670px] sm:w-full sm:h-auto md:h-[600px]">
 
@@ -20,15 +75,14 @@
                 <div
                     class="md:h-[600px] relative md:w-[500px] sm:w-full sm:h-[300px] flex justify-center items-center bg-[#F5F5F5]">
                     <div @mousemove="handleMouseMove" @mouseenter="showZoom = true" @mouseleave="showZoom = false"
-                        @wheel.prevent="handleWheel"
-                        ref="imageContainer"
+                        @wheel.prevent="handleWheel" ref="imageContainer"
                         class="max-w-[446px] max-h-[315px] flex justify-center items-center sm:w-full sm:h-full cursor-zoom-in relative">
                         <img :src="'http://localhost:3000/uploads/Product/' + selectedImage" alt="Product image"
                             class="w-full h-full object-contain" />
                     </div>
                     <div v-if="showZoom"
                         class="absolute w-[300px] h-[300px] border border-gray-300 bg-white rounded-lg shadow-xl overflow-hidden pointer-events-none"
-                        :style="{ 
+                        :style="{
                             left: `${Math.min(Math.max(mouseX.value, 0), imageContainer.value?.offsetWidth - 300 || 0)}px`,
                             top: `${Math.min(Math.max(mouseY.value - 150, -150), (imageContainer.value?.offsetHeight || 0) - 150)}px`,
                             zIndex: 50
@@ -54,8 +108,6 @@
                                 {{ product?.stock ? product?.stock : 0 }} in stock
                             </h3>
                         </div>
-
-                        <!-- Price Display -->
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-3">
                                 <h4 class="text-[28px] font-[600] text-highlight-dark">
@@ -84,7 +136,6 @@
                         <hr class="my-2" />
                     </div>
                     <div class="w-full space-y-6 mt-4">
-                        <!-- Color Selection -->
                         <div class="w-full">
                             <h3 class="font-[500] text-[16px] mb-2">Select Color:</h3>
                             <div class="flex flex-wrap gap-3">
@@ -94,12 +145,11 @@
                                     :class="[
                                         selectedColor === color.value ? 'ring-4 ring-highlight-2 scale-110' : 'hover:ring-2 hover:ring-black',
                                         !selectedColor ? 'ring-2 ring-highlight-2 animate-pulse' : ''
-                                    ]"
-                                    @click="handleColorSelect(color.value)">
-                                    <div v-if="selectedColor === color.value" 
+                                    ]" @click="handleColorSelect(color.value)">
+                                    <div v-if="selectedColor === color.value"
                                         class="absolute inset-0 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                            fill="none" stroke="white" stroke-width="3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
                                             <path d="M20 6L9 17L4 12" />
                                         </svg>
                                     </div>
@@ -107,8 +157,6 @@
                             </div>
                             <p v-if="!selectedColor" class="text-sm text-gray-500 mt-1">Please select a color first</p>
                         </div>
-
-                        <!-- Size Selection -->
                         <div class="w-full" :class="{ 'opacity-50': !selectedColor }">
                             <h3 class="font-[500] text-[16px] mb-2">Select Size:</h3>
                             <div class="flex flex-wrap gap-2">
@@ -118,21 +166,17 @@
                                         selectedSize === size ? 'bg-highlight-2 text-white border-highlight-2' : 'hover:bg-gray-100',
                                         !selectedColor ? 'cursor-not-allowed' : '',
                                         !selectedSize && selectedColor ? 'ring-2 ring-highlight-2 animate-pulse' : ''
-                                    ]"
-                                    :disabled="!selectedColor"
-                                    @click="handleSizeSelect(size)">
+                                    ]" :disabled="!selectedColor" @click="handleSizeSelect(size)">
                                     {{ size }}
                                 </button>
                             </div>
-                            <p v-if="selectedColor && !selectedSize" class="text-sm text-gray-500 mt-1">Please select a size</p>
+                            <p v-if="selectedColor && !selectedSize" class="text-sm text-gray-500 mt-1">Please select a
+                                size</p>
                         </div>
-
-                        <!-- Quantity and Add to Cart -->
                         <div class="flex items-center space-x-4 mt-4 w-full justify-between h-[44px]">
                             <div class="flex items-center rounded overflow-hidden w-[159px] h-full border">
                                 <button @click="quantity > 1 ? quantity-- : quantity = 1"
-                                    :disabled="!selectedColor || !selectedSize"
-                                    :class="[
+                                    :disabled="!selectedColor || !selectedSize" :class="[
                                         'border-r w-[40px] flex items-center justify-center h-full rounded-l',
                                         selectedColor && selectedSize ? 'hover:bg-gray-100 cursor-pointer' : 'cursor-not-allowed opacity-50'
                                     ]">
@@ -143,12 +187,10 @@
                                 <span class="w-[80px] h-full text-center leading-[44px]">
                                     {{ quantity }}
                                 </span>
-                                <button @click="quantity++"
-                                    :disabled="!selectedColor || !selectedSize"
-                                    :class="[
-                                        'w-[40px] h-full rounded-r flex justify-center items-center border-l text-white',
-                                        selectedColor && selectedSize ? 'bg-highlight-2 hover:bg-highlight-2/90 cursor-pointer' : 'bg-gray-400 cursor-not-allowed'
-                                    ]">
+                                <button @click="quantity++" :disabled="!selectedColor || !selectedSize" :class="[
+                                    'w-[40px] h-full rounded-r flex justify-center items-center border-l text-white',
+                                    selectedColor && selectedSize ? 'bg-highlight-2 hover:bg-highlight-2/90 cursor-pointer' : 'bg-gray-400 cursor-not-allowed'
+                                ]">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                         <path fill="currentColor"
                                             d="M12 21q-.425 0-.712-.288T11 20v-7H4q-.425 0-.712-.288T3 12t.288-.712T4 11h7V4q0-.425.288-.712T12 3t.713.288T13 4v7h7q.425 0 .713.288T21 12t-.288.713T20 13h-7v7q0 .425-.288.713T12 21" />
@@ -160,8 +202,7 @@
                                 class="bg-highlight-2 w-[165px] h-full rounded-md transition-all duration-200 flex items-center justify-center gap-2"
                                 :class="[
                                     selectedColor && selectedSize ? 'hover:bg-highlight-2/90' : 'opacity-50 cursor-not-allowed'
-                                ]"
-                                :disabled="!selectedColor || !selectedSize">
+                                ]" :disabled="!selectedColor || !selectedSize">
                                 <span class="text-white">Buy Now</span>
                             </button>
 
@@ -363,7 +404,7 @@ const imageContainer = ref<HTMLElement | null>(null);
 const zoomScale = ref(2);
 const MIN_ZOOM = 1.5;
 const MAX_ZOOM = 4;
-
+const loading = ref(true);
 const route = useRoute();
 const product = ref<ProductType | undefined>(undefined);
 const selectedImage = ref<string>('');
@@ -394,57 +435,49 @@ const availableColors = computed(() => {
 
 const zoomStyle = computed(() => {
     if (!imageContainer.value) return {};
-    
     const rect = imageContainer.value.getBoundingClientRect();
     const x = (mouseX.value / rect.width) * 100;
     const y = (mouseY.value / rect.height) * 100;
-    
-    // Ensure we're using valid numbers
     const scale = zoomScale.value || 2;
     const validX = isNaN(x) ? 50 : x;
     const validY = isNaN(y) ? 50 : y;
-    
     return {
         transform: `translate(-${validX}%, -${validY}%) scale(${scale})`,
         transformOrigin: 'center',
         transition: 'transform 0.15s ease-out'
     };
 });
-
 onMounted(async () => {
-    const id = route.params.id;
-    product.value = await ProductStore.getProductById(id as string);
+    try {
+        const id = route.params.id;
+        product.value = await ProductStore.getProductById(id as string);
 
-    if (product.value?.image?.length) {
-        selectedImage.value = product.value.image[0];
+        if (product.value?.image?.length) {
+            selectedImage.value = product.value.image[0];
+        }
+        selectedSize.value = null;
+        selectedColor.value = null;
+    } catch (error) {
+        console.error("Error loading product:", error);
+    } finally {
+        loading.value = false;
     }
-    // Remove default selections
-    selectedSize.value = null;
-    selectedColor.value = null;
 });
 
 const handleWheel = (event: WheelEvent) => {
     if (!showZoom.value) return;
-    
-    // Prevent default scroll
     event.preventDefault();
-    
-    // Calculate new zoom level with smoother increments
     const zoomDelta = event.deltaY > 0 ? -0.1 : 0.1;
     const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, (zoomScale.value || 2) + zoomDelta));
-    
-    // Update zoom with smooth transition
     zoomScale.value = Number(newZoom.toFixed(1));
 };
 
 const handleMouseMove = (event: MouseEvent) => {
     if (!imageContainer.value) return;
-    
+
     const rect = imageContainer.value.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    
-    // Keep coordinates within bounds
     mouseX.value = Math.min(Math.max(0, x), rect.width);
     mouseY.value = Math.min(Math.max(0, y), rect.height);
 };
@@ -454,7 +487,6 @@ const buyModel = ref(null);
 
 const handleColorSelect = (colorValue: string) => {
     selectedColor.value = selectedColor.value === colorValue ? null : colorValue;
-    // Reset size when color changes
     selectedSize.value = null;
 };
 
@@ -492,7 +524,6 @@ onClickOutside(buyModel, () => {
     transform: scale(0.95);
 }
 
-/* Improved zoom container styling */
 .zoom-container {
     position: relative;
     overflow: hidden;
@@ -514,7 +545,6 @@ onClickOutside(buyModel, () => {
     overflow: hidden;
 }
 
-/* Price tag animation */
 @keyframes priceTag {
     0% {
         transform: scale(1);
@@ -533,7 +563,6 @@ onClickOutside(buyModel, () => {
     animation: priceTag 0.5s ease;
 }
 
-/* Selection animations */
 @keyframes selectPulse {
     0% {
         transform: scale(1);
@@ -550,5 +579,21 @@ onClickOutside(buyModel, () => {
 
 .selected {
     animation: selectPulse 0.3s ease;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 </style>

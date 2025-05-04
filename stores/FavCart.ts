@@ -46,7 +46,10 @@ export const useFavCartStore = defineStore('FavCart', {
         },
         setActiveProduct(product: ProductType) {
             this.selectedProduct = product;
-        }
+        },
+        clearCart() {
+            this.cart = [];
+        },
     },
     persist : {
         enabled: true

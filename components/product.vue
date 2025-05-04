@@ -1,5 +1,12 @@
 <template>
-  <div
+  <div v-if="loading" class="w-[270px] mx-2 h-[350px] flex-shrink-0 rounded flex flex-col justify-between items-center overflow-hidden">
+    <div class="w-full h-[250px] bg-gray-200 animate-pulse rounded-t-md"></div>
+    <div class="w-full h-[85px] p-4 space-y-2">
+      <div class="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+      <div class="h-4 bg-gray-200 rounded animate-pulse w-1/2"></div>
+    </div>
+  </div>
+  <div v-else
     class="w-[270px] mx-2 h-[350px] flex-shrink-0 rounded flex flex-col justify-between items-center overflow-hidden">
     <div class="w-full h-[250px] bg-[#F5F5F5] flex justify-center items-center relative cursor-pointer"
       @mouseenter="show = true" @mouseleave="show = false">
@@ -87,11 +94,13 @@
 import type { Product } from '~/types';
 const store = useFavCartStore();
 const show = ref(false);
+
 interface ProductProps {
   product: Product;
+  loading?: boolean; 
 }
 
-const { product } = defineProps<ProductProps>();
+const { product, loading = false } = defineProps<ProductProps>();
 </script>
 
 <style scoped>
@@ -103,5 +112,18 @@ const { product } = defineProps<ProductProps>();
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 </style>

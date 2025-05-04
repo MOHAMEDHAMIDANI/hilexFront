@@ -35,6 +35,6 @@ export const useCategoryStore = defineStore('category', {
             } finally {
                 this.loading = false
             }
-        }
+        },
     }
 })

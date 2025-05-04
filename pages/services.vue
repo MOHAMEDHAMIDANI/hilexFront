@@ -1,7 +1,6 @@
 <template>
   <MainLayout>
     <div class="services-page">
-      <!-- Hero Section -->
       <section class="hero-section bg-gradient-to-r from-blue-50 to-blue-100 py-16 md:py-24">
         <div class="container mx-auto px-4">
           <div class="text-center max-w-3xl mx-auto">
@@ -16,14 +15,10 @@
           </div>
         </div>
       </section>
-
-      <!-- Services Overview Section -->
       <section class="services-overview py-16">
         <div class="container mx-auto px-4">
           <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-primary-dark mb-10 text-center">Our Services For You</h2>
-          <!-- First row with 3 cards -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
-            <!-- First 3 cards remain unchanged -->
             <div class="service-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 border-2 border-blue-100">
               <div class="p-6">
                 <div class="w-28 h-28 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -58,9 +53,7 @@
               </div>
             </div>
           </div>
-          
-          <!-- Second row with 2 centered cards -->
-          <div class="flex flex-wrap justify-center gap-10">
+                    <div class="flex flex-wrap justify-center gap-10">
             <div class="w-full md:w-[calc(50%-20px)] lg:w-[400px] service-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 border-2 border-blue-100">
               <div class="p-6">
                 <div class="w-28 h-28 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -87,8 +80,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Value Proposition Section -->
       <section class="value-proposition bg-blue-50 py-20">
         <div class="container mx-auto px-4">
           <div class="max-w-4xl mx-auto text-center">
@@ -129,8 +120,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Call-to-Action Section -->
       <section class="cta-section py-20 bg-gradient-to-r from-blue-50 to-blue-100">
         <div class="container mx-auto px-4">
           <div class="max-w-4xl mx-auto">
@@ -156,8 +145,6 @@
 
 <script setup lang="ts">
 import MainLayout from '~/layouts/mainLayout.vue';
-
-// Set page title and meta description
 useHead({
   title: 'Our Hearing Services | Helix',
   meta: [

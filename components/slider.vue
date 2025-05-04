@@ -1,7 +1,5 @@
-<template >
-  <div
-    class="c p-2 mt-2 rounded-xl w-full flex flex-col justify-around  h-fit mx-auto"
-  >
+<template>
+  <div class="c p-2 mt-2 rounded-xl w-full flex flex-col justify-around h-fit mx-auto">
     <div class="flex items-center justify-between">
       <h3
         class="text-2xl w-fit ml-10 capitalize relative after:content-[''] after:absolute after:w-5 after:h-10 after:rounded after:-left-8 after:-top-1 after:bg-highlight-2 text-highlight-dark"
@@ -13,17 +11,13 @@
       <h3 class="text-2xl w-fit px-2 py-4 capitalize text-black">
         {{ description }}
       </h3>
-      <div v-if="Slider" class="flex items-center justify-between w-[80px]">
+      <div v-if="Slider && hasItems" class="flex items-center justify-between w-[80px]">
         <button
           @click="scrollRight"
           type="button"
-          data-state="closed"
-          data-grace-area-trigger=""
           class="font-medium inline-flex items-center focus:outline-hidden disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:opacity-75 aria-disabled:opacity-75 transition-colors text-sm bg-zinc-200 cursor-pointer rounded-full p-0.5 hover:bg-zinc-300 hover:disabled:bg-transparent dark:hover:disabled:bg-transparent hover:aria-disabled:bg-transparent dark:hover:aria-disabled:bg-transparent"
         >
-          <div
-            class="relative inline-flex items-center justify-center shrink-0"
-          >
+          <div class="relative inline-flex items-center justify-center shrink-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -40,13 +34,9 @@
         <button
           @click="scrollLeft"
           type="button"
-          data-state="closed"
-          data-grace-area-trigger=""
           class="font-medium inline-flex items-center focus:outline-hidden disabled:cursor-not-allowed aria-disabled:cursor-not-allowed disabled:opacity-75 aria-disabled:opacity-75 transition-colors text-sm bg-zinc-200 cursor-pointer rounded-full p-0.5 hover:bg-zinc-300 hover:disabled:bg-transparent dark:hover:disabled:bg-transparent hover:aria-disabled:bg-transparent dark:hover:aria-disabled:bg-transparent"
         >
-          <div
-            class="relative inline-flex items-center justify-center shrink-0"
-          >
+          <div class="relative inline-flex items-center justify-center shrink-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -62,15 +52,21 @@
         </button>
       </div>
     </div>
+    <div v-if="!hasItems" class="w-full h-64 flex flex-col items-center justify-center bg-gray-50 rounded-lg">
+      <Icon name="heroicons:inbox" class="w-16 h-16 text-gray-400 mb-4" />
+      <h4 class="text-xl font-medium text-gray-600 mb-2">No items found</h4>
+      <p class="text-gray-500 text-center max-w-md px-4">
+        {{ emptyMessage || 'There are currently no items to display.' }}
+      </p>
+    </div>
     <div
+      v-else
       ref="sliderRef"
-      :class="[Slider ? 'overflow-x-auto flex-nowrap no-scrollbar': 'flex-wrap  justify-around']"
-      class="w-full h-fit py-2 px-2 flex  items-center"
-      
+      :class="[Slider ? 'overflow-x-auto flex-nowrap no-scrollbar': 'flex-wrap justify-around']"
+      class="w-full h-fit py-2 px-2 flex items-center"
     >
       <slot></slot>
     </div>
-
   </div>
 </template>
 
@@ -80,17 +76,23 @@ const childrenCount = ref(0);
 const SliderWidth = ref(0);
 const childWidth = ref(0);
 const gap = ref(0);
+const hasItems = ref(false);
+
 interface sliderProps {
-title : string;
-description : string;
-Slider : boolean;
+  title: string;
+  description: string;
+  Slider: boolean;
+  emptyMessage?: string;
 }
-  const Props = defineProps<sliderProps>()
+
+const Props = defineProps<sliderProps>();
+
 onMounted(() => {
   nextTick(() => {
     if (sliderRef.value) {
       const slider = sliderRef.value;
       childrenCount.value = slider.children.length;
+      hasItems.value = childrenCount.value > 0;
       SliderWidth.value = slider.offsetWidth;
 
       const firstChild = slider.children[0] as HTMLElement;
