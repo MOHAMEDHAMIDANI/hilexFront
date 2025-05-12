@@ -1,5 +1,8 @@
 <template>
   <MainLayout>
+    <div class="landing-page">
+  <landingPage-heroSection />
+</div>
     <div>
       <slider title="category" description="discover our categories" :Slider="true">
         <category v-for="product in medicalProducts" :key="product.id" :product="product"/>
@@ -17,4 +20,7 @@ import MainLayout from "~/layouts/mainLayout.vue";
 </script>
 
 <style scoped>
+.landing-page {
+  color: var(--color-text);
+}
 </style>
