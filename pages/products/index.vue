@@ -100,9 +100,9 @@
                 </div>
 
                 <div class="w-full">
-                    <Slider :title="'Results'"
-                        :description="searchQuery ? `Results for: ${searchQuery}` : 'Results based on your filters'" >
-                        <Product v-for="product in ProductStore.ProductsWithFilters" :key="product.id" loading="true"
+                    <Slider :title="'Results'" :hasItems="ProductStore.ProductsWithFilters?.length ? true : false"
+                        :description="searchQuery ? `Results for: ${searchQuery}` : 'Results based on your filters'">
+                        <Product v-for="product in ProductStore.ProductsWithFilters" :key="product.id" :loading="!product"
                             :product="product" :gap="false" />
                     </Slider>
                 </div>
@@ -133,7 +133,7 @@ const attributes = ref<{ colors: { value: string; hex: string }[]; sizes: string
 const selectedCategory = ref<string | null>(route.query.category as string || null);
 const selectedColor = ref<string | null>(route.query.color as string || null);
 const selectedSize = ref<string | null>(route.query.size as string || null);
-const priceRange = ref(Number(route.query.maxPrice) || attributes.value.maxPrice );
+const priceRange = ref(Number(route.query.maxPrice) || attributes.value.maxPrice);
 const searchQuery = ref(route.query.q as string || "");
 
 onMounted(async () => {

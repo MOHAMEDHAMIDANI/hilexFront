@@ -1,13 +1,12 @@
 <template>
   <MainLayout>
-    <div class="landing-page">
-      <landingPage-heroSection />
-    </div>
+    <hero-section />
     <div>
-      <slider title="Categories" description="Discover our product categories" :Slider="true">
+      <slider :hasItems="categoryStore.categories?.length ? true : false" title="Categories" description="Discover our product categories"
+        :Slider="true">
         <category v-for="category in categoryStore.categories" :key="category.id" :category="category" />
       </slider>
-      <slider title="Products" description="discover our Products" :Slider="true">
+      <slider :hasItems="productStore.Products?.length ? true : false" title="Products" description="discover our Products" :Slider="true">
         <Product v-for="product in productStore.Products" :key="product.id" :product="product" />
       </slider>
     </div>
@@ -25,8 +24,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.landing-page {
-  color: var(--color-text);
-}
-</style>
+<style scoped></style>

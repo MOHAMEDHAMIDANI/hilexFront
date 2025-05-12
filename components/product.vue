@@ -101,6 +101,7 @@ interface ProductProps {
 }
 
 const { product, loading = false } = defineProps<ProductProps>();
+
 </script>
 
 <style scoped>

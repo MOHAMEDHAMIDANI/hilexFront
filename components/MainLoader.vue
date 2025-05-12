@@ -44,12 +44,16 @@
 </template>
 
 <script setup>
+import { defineComponent } from "vue";
+
 import { ref, onMounted } from "vue";
 const show = ref(true);
-
-onMounted(() => {
-  setTimeout(() => (show.value = false), 2500);
+defineComponent({
+  name: "MainLoader",
 });
+
+setTimeout(() => (show.value = false), 2500);
+
 </script>
 
 <style scoped>

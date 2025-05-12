@@ -4,7 +4,10 @@
     <nuxtPage />
   </div>
 </template>
-<style >
+<script setup lang="ts">
+import MainLoader from "~/components/MainLoader.vue";
+</script>
+<style>
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
