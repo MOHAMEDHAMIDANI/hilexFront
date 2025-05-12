@@ -1,7 +1,10 @@
 <template>
   <MainLayout>
+    <div class="landing-page">
+      <landingPage-heroSection />
+    </div>
     <div>
-      <slider title="Categories" description="Discover our product categories" :slider="true">
+      <slider title="Categories" description="Discover our product categories" :Slider="true">
         <category v-for="category in categoryStore.categories" :key="category.id" :category="category" />
       </slider>
       <slider title="Products" description="discover our Products" :Slider="true">
@@ -21,3 +24,9 @@ onMounted(() => {
   categoryStore.getCategories();
 });
 </script>
+
+<style scoped>
+.landing-page {
+  color: var(--color-text);
+}
+</style>
