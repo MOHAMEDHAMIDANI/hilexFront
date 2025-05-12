@@ -2,12 +2,9 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
-  "overrides": {
-    "vue": "latest"
-  },
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --port 3001",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -21,12 +18,14 @@
     "@pinia/nuxt": "^0.10.1",
     "@tailwindcss/vite": "^4.0.13",
     "@vueuse/nuxt": "^13.0.0",
+    "axios": "^1.9.0",
+    "lodash-es": "^4.17.21",
     "nuxt": "^3.16.0",
     "nuxt-icon-tw": "^1.0.0",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",
     "tailwindcss": "^4.0.13",
-    "vue": "^3.5.13",
+    "vue": "^3.4.21",
     "vue-router": "^4.5.0"
   }
 }
