@@ -198,7 +198,7 @@
                                 </button>
                             </div>
 
-                            <button @click="Willing()"
+                            <button @click="openOrderDetailsModal()"
                                 class="bg-highlight-2 w-[165px] h-full rounded-md transition-all duration-200 flex items-center justify-center gap-2"
                                 :class="[
                                     selectedColor && selectedSize ? 'hover:bg-highlight-2/90' : 'opacity-50 cursor-not-allowed'
@@ -268,10 +268,10 @@
                     </div>
                 </div>
             </div>
-            <div v-if="WillingToBuy" class="fixed inset-0 bg-black/60 z-10 flex justify-center items-center p-4">
+            <div v-if="showOrderDetailsModal" class="fixed inset-0 bg-black/60 z-10 flex justify-center items-center p-4">
                 <button
                     class=" absolute cursor-pointer top-5 right-5 bg-primary hover:bg-primary-dark2 duration-300 size-[44px] rounded flex items-center justify-center"
-                    @click="WillingToBuy = false">
+                    @click="showOrderDetailsModal = false">
                     <div v-if="true" class="relative inline-flex items-center justify-center p-2 text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
                             <path fill="currentColor"
@@ -281,105 +281,149 @@
                 </button>
                 <div ref="buyModel"
                     class="bg-gray-100 p-6 rounded-md shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-4xl flex flex-col space-y-6 max-h-[79vh] overflow-auto">
-                    <h3 class="font-[500] text-[36px] leading-[30px] capitalize">billing details</h3>
-                    <div
-                        class="w-full h-full flex justify-between lg:flex-row flex-col-reverse gap-5 mt-5 items-center">
-                        <form class="flex flex-col  md:w-fit lg:w-fit w-full  h-full">
-                            <div class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="floating_first_name" id="floating_first_name"
-                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                        placeholder=" " required />
-                                    <label for="floating_first_name"
-                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First
-                                        name</label>
-                                </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="floating_last_name" id="floating_last_name"
-                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                        placeholder=" " required />
-                                    <label for="floating_last_name"
-                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last
-                                        name</label>
-                                </div>
-                            </div>
-                            <div class="relative z-0 w-full mb-5 group">
-                                <input type="email" name="floating_email" id="floating_email"
-                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " required />
-                                <label for="floating_email"
-                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
-                                    address</label>
-                            </div>
-                            <div class="relative z-0 w-full mb-5 group">
-                                <input type="text" name="floating_address" id="floating_address"
-                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " required />
-                                <label for="floating_address"
-                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
-                            </div>
-                            <div class="relative z-0 w-full mb-5 group">
-                                <input type="text" name="floating_city" id="floating_city"
-                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " required />
-                                <label for="floating_city"
-                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Town/City</label>
-                            </div>
+                    
+                    <!-- Loading State -->
+                    <div v-if="isProcessing" class="text-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Processing Order...</h3>
+                        <p class="text-gray-600">Please wait while we process your order.</p>
+                    </div>
 
-                            <div class="relative z-0 w-full mb-5 group">
-                                <input type="tel" name="floating_phone"
-                                    id="floating_phone"
-                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " required />
-                                <label for="floating_phone"
-                                    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone
-                                    number</label>
-                            </div>
-                            <button type="submit"
-                                class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-primary dark:focus:ring-primary-dark">Submit</button>
-                        </form>
-                        <div class="max-w-sm flex justify-end items-center">
-                            <div class="w-[470px] h-fit border border-gray-300 rounded-md p-6">
-                                <h2 class="text-lg font-bold text-gray-900 mb-4">Order Summary</h2>
-                                <div class="flex items-center justify-between  pb-2">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-16 h-16 flex-shrink-0">
-                                            <img class="w-full h-full object-contain"
-                                                :src="`http://localhost:3000/uploads/Product/${product?.image[0]}`"
-                                                alt="Product Image">
+                    <!-- Success State -->
+                    <div v-else-if="orderSuccess" class="text-center py-8">
+                        <div class="bg-green-50 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                            <Icon name="material-symbols:check-circle-rounded" class="w-12 h-12 text-green-500" />
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Order Confirmed!</h3>
+                        <p class="text-gray-600 mb-6">Your order has been placed successfully.</p>
+                         <button 
+                            @click="showOrderDetailsModal = false; resetOrderState()"
+                            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
+                          >
+                            Close
+                          </button>
+                    </div>
+
+                    <!-- Error State -->
+                    <div v-else-if="orderError" class="text-center py-8">
+                        <div class="bg-red-50 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                            <Icon name="material-symbols:error-rounded" class="w-12 h-12 text-red-500" />
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Order Failed</h3>
+                        <p class="text-gray-600 mb-6">{{ errorMessage || 'Something went wrong. Please try again.' }}</p>
+                         <button 
+                            @click="resetOrderState()"
+                            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
+                          >
+                            Try Again
+                          </button>
+                    </div>
+
+                    <!-- Billing Details Form (Default State) -->
+                    <template v-else>
+                        <h3 class="font-[500] text-[36px] leading-[30px] capitalize">billing details</h3>
+                        <div
+                            class="w-full h-full flex justify-between lg:flex-row flex-col-reverse gap-5 mt-5 items-center">
+                            <form class="flex flex-col  md:w-fit lg:w-fit w-full  h-full">
+                                <div class="grid md:grid-cols-2 md:gap-6">
+                                    <div class="relative z-0 w-full mb-5 group">
+                                        <input v-model="form.firstName" type="text" name="floating_first_name" id="floating_first_name"
+                                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                            placeholder=" " required />
+                                        <label for="floating_first_name"
+                                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First
+                                            name</label>
+                                    </div>
+                                    <div class="relative z-0 w-full mb-5 group">
+                                        <input v-model="form.familyName" type="text" name="floating_last_name" id="floating_last_name"
+                                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                            placeholder=" " required />
+                                        <label for="floating_last_name"
+                                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last
+                                            name</label>
+                                    </div>
+                                </div>
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input v-model="form.email" type="email" name="floating_email" id="floating_email"
+                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        placeholder=" " required />
+                                    <label for="floating_email"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
+                                        address</label>
+                                </div>
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input v-model="form.address" type="text" name="floating_address" id="floating_address"
+                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:focus:border-blue-600 peer"
+                                        placeholder=" " required />
+                                    <label for="floating_address"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
+                                </div>
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input v-model="form.city" type="text" name="floating_city" id="floating_city"
+                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        placeholder=" " required />
+                                    <label for="floating_city"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Town/City</label>
+                                </div>
+
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input v-model="form.phoneNumber" type="tel" name="floating_phone"
+                                        id="floating_phone"
+                                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        placeholder=" " required />
+                                    <label for="floating_phone"
+                                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone
+                                        number</label>
+                                </div>
+                                <button type="submit"
+                                    class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-primary dark:focus:ring-primary-dark"
+                                    @click.prevent="submitSingleProductOrder">
+                                    Submit
+                                </button>
+                            </form>
+                            <div class="max-w-sm flex justify-end items-center">
+                                <div class="w-[470px] h-fit border border-gray-300 rounded-md p-6">
+                                    <h2 class="text-lg font-bold text-gray-900 mb-4">Order Summary</h2>
+                                    <div class="flex items-center justify-between  pb-2">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-16 h-16 flex-shrink-0">
+                                                <img class="w-full h-full object-contain"
+                                                    :src="`http://localhost:3000/uploads/Product/${product?.image[0]}`"
+                                                    alt="Product Image">
+                                            </div>
+                                            <span class="text-gray-700 font-medium text-sm sm:text-base">{{
+                                                product?.productName }}</span>
                                         </div>
-                                        <span class="text-gray-700 font-medium text-sm sm:text-base">{{
-                                            product?.productName }}</span>
-                                    </div>
-                                    <span class="text-gray-900 font-semibold text-sm sm:text-base">
-                                        DZD {{ product?.hasPromotion ? product?.promotionPrice : product?.price }}
-                                    </span>
-                                </div>
-                                <div class="space-y-4">
-                                    <div class="flex justify-between text-sm sm:text-base border-t pt-3">
-                                        <span class="text-gray-600">Subtotal:</span>
-                                        <span class="text-gray-900">
-                                            DZD {{ (product?.hasPromotion ? product?.promotionPrice : product?.price) *
-                                                quantity }}
+                                        <span class="text-gray-900 font-semibold text-sm sm:text-base">
+                                            DZD {{ product?.hasPromotion ? product?.promotionPrice : product?.price }}
                                         </span>
                                     </div>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between text-sm sm:text-base border-t pt-3">
+                                            <span class="text-gray-600">Subtotal:</span>
+                                            <span class="text-gray-900">
+                                                DZD {{ (product?.hasPromotion ? product?.promotionPrice : product?.price) *
+                                                    quantity }}
+                                            </span>
+                                        </div>
 
-                                    <div class="flex justify-between text-sm sm:text-base border-t pt-3">
-                                        <span class="text-gray-600">Shipping:</span>
-                                        <span class="text-gray-900">Free</span>
-                                    </div>
+                                        <div class="flex justify-between text-sm sm:text-base border-t pt-3">
+                                            <span class="text-gray-600">Shipping:</span>
+                                            <span class="text-gray-900">Free</span>
+                                        </div>
 
-                                    <div class="flex justify-between text-lg  border-t pt-3">
-                                        <span class="text-gray-700">Total:</span>
-                                        <span class="text-gray-900">
-                                            DZD {{ (product?.hasPromotion ? product?.promotionPrice : product?.price) *
-                                                quantity }}
-                                        </span>
+                                        <div class="flex justify-between text-lg  border-t pt-3">
+                                            <span class="text-gray-700">Total:</span>
+                                            <span class="text-gray-900">
+                                                DZD {{ (product?.hasPromotion ? product?.promotionPrice : product?.price) *
+                                                    quantity }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -482,8 +526,33 @@ const handleMouseMove = (event: MouseEvent) => {
     mouseY.value = Math.min(Math.max(0, y), rect.height);
 };
 
-const WillingToBuy = ref(false);
+const showOrderDetailsModal = ref(false);
 const buyModel = ref(null);
+const isProcessing = ref(false);
+const orderSuccess = ref(false);
+const orderError = ref(false);
+const errorMessage = ref('');
+
+const form = reactive({
+    firstName: '',
+    familyName: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    city: '',
+});
+
+const openOrderDetailsModal = () => {
+    if (!selectedColor.value) {
+        alert("Please select a color first");
+        return;
+    }
+    if (!selectedSize.value) {
+        alert("Please select a size");
+        return;
+    }
+    showOrderDetailsModal.value = true;
+};
 
 const handleColorSelect = (colorValue: string) => {
     selectedColor.value = selectedColor.value === colorValue ? null : colorValue;
@@ -495,20 +564,110 @@ const handleSizeSelect = (size: string) => {
     selectedSize.value = selectedSize.value === size ? null : size;
 };
 
-const Willing = () => {
-    if (!selectedColor.value) {
-        alert("Please select a color first");
+const submitSingleProductOrder = async () => {
+    // Check rate limiting
+    const lastOrderAttempt = localStorage.getItem('lastOrderAttempt');
+    const cooldownPeriod = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const now = Date.now();
+
+    if (lastOrderAttempt && (now - parseInt(lastOrderAttempt)) < cooldownPeriod) {
+        const remainingTime = Math.ceil((cooldownPeriod - (now - parseInt(lastOrderAttempt))) / (60 * 1000));
+        errorMessage.value = `Please wait ${remainingTime} minutes before placing another order.`;
+        orderError.value = true;
         return;
     }
-    if (!selectedSize.value) {
-        alert("Please select a size");
+
+    // Basic validation check
+    if (!form.firstName || !form.familyName || !form.email || !form.phoneNumber || !form.address || !form.city) {
+        errorMessage.value = 'Please fill in all required billing details.';
+        orderError.value = true;
         return;
     }
-    WillingToBuy.value = true;
+
+    if (!product.value || !selectedColor.value || !selectedSize.value) {
+        errorMessage.value = 'Please select a product, color, and size.';
+        orderError.value = true;
+        return;
+    }
+
+    try {
+        isProcessing.value = true;
+        orderError.value = false;
+        orderSuccess.value = false;
+
+        const productPrice = parseFloat(product.value.price);
+        const promotionPrice = product.value.hasPromotion ? parseFloat(product.value.promotionPrice || '0') : productPrice;
+        const currentPrice = product.value.hasPromotion ? promotionPrice : productPrice;
+        const itemQuantity = quantity.value;
+
+        const orderDto = {
+            firstName: form.firstName,
+            familyName: form.familyName,
+            email: form.email,
+            phoneNumber: form.phoneNumber,
+            address: `${form.address}, ${form.city}`,
+            totalPrice: currentPrice * itemQuantity,
+            products: [{
+                productId: product.value.id,
+                quantity: itemQuantity,
+                priceAtOrder: currentPrice,
+                nameAtOrder: product.value.productName,
+                color: selectedColor.value,
+                size: selectedSize.value,
+            }],
+            shipping: {
+                method: 'Standard',
+                cost: 0,
+                address: `${form.address}, ${form.city}`,
+                city: form.city,
+                state: '',
+                zip: '',
+                country: 'Algeria',
+                tracking: '',
+            },
+            payment: {
+                method: 'Cash on Delivery',
+                status: 'pending',
+            },
+            customer: {
+                name: `${form.firstName} ${form.familyName}`,
+                email: form.email,
+                phone: form.phoneNumber,
+                avatar: '',
+                isVIP: false,
+            },
+            subtotal: currentPrice * itemQuantity,
+            tax: 0,
+            discount: 0,
+        };
+
+        const { $axios } = useNuxtApp();
+        const response = await $axios.post('/order', orderDto);
+        
+        // Store the successful order attempt timestamp
+        localStorage.setItem('lastOrderAttempt', now.toString());
+        
+        orderSuccess.value = true;
+    } catch (error: any) {
+        orderError.value = true;
+        errorMessage.value = error.message || 'An error occurred while placing your order';
+        console.error('Order submission error:', error);
+    } finally {
+        isProcessing.value = false;
+    }
+};
+
+const resetOrderState = () => {
+    orderSuccess.value = false;
+    orderError.value = false;
+    errorMessage.value = '';
 };
 
 onClickOutside(buyModel, () => {
-    WillingToBuy.value = false;
+    if (!isProcessing.value || orderSuccess.value || orderError.value) {
+        showOrderDetailsModal.value = false;
+        resetOrderState();
+    }
 });
 </script>
 

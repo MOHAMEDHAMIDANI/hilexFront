@@ -22,7 +22,7 @@
             <Icon name="material-symbols:error-rounded" class="w-10 h-10 text-red-500" />
           </div>
           <h3 class="text-2xl font-semibold text-gray-800 mb-2">Oops!</h3>
-          <p class="text-gray-600 text-center mb-6">Something went wrong. Please try again later.</p>
+          <p class="text-gray-600 text-center mb-6">{{ errorMessage }}</p>
           <button @click="error = false"
             class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all duration-300 hover:shadow-md">
             Try Again
@@ -146,9 +146,22 @@ const message = ref("");
 const waiting = ref(false);
 const success = ref(false);
 const error = ref(false);
+const errorMessage = ref("");
 
 const sendMessage = async () => {
   try {
+    // Check rate limiting
+    const lastMessageAttempt = localStorage.getItem('lastMessageAttempt');
+    const cooldownPeriod = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const now = Date.now();
+
+    if (lastMessageAttempt && (now - parseInt(lastMessageAttempt)) < cooldownPeriod) {
+      const remainingTime = Math.ceil((cooldownPeriod - (now - parseInt(lastMessageAttempt))) / (60 * 1000));
+      error.value = true;
+      errorMessage.value = `Please wait ${remainingTime} minutes before sending another message.`;
+      return;
+    }
+
     waiting.value = true;
     error.value = false;
     success.value = false;
@@ -162,6 +175,8 @@ const sendMessage = async () => {
     });
 
     if (response.status === 201) {
+      // Store the successful message attempt timestamp
+      localStorage.setItem('lastMessageAttempt', now.toString());
       success.value = true;
       fullName.value = "";
       email.value = "";

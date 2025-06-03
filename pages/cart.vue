@@ -82,8 +82,7 @@
             <div class="space-y-4">
               <div class="flex justify-between text-sm sm:text-base">
                 <span class="text-gray-600 ">Subtotal:</span>
-                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
-                  product.quantity, 0) }}</span>
+                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
               </div>
 
               <div class="flex justify-between text-sm sm:text-base border-t pt-3">
@@ -93,8 +92,7 @@
 
               <div class="flex justify-between text-lg  border-t pt-3">
                 <span class="text-gray-700">Total:</span>
-                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
-                  product.quantity, 0) }}</span>
+                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
               </div>
             </div>
 
@@ -124,7 +122,7 @@
         <div class="relative inline-flex items-center justify-center p-2 text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
             <path fill="currentColor"
-              d="m12 12.727l-3.592 3.592q-.16.16-.354.15T7.7 16.3t-.16-.364q0-.203.16-.363L11.273 12L7.681 8.433q-.16-.16-.15-.364t.169-.363t.364-.16q.203 0 .363.16L12 11.298l3.567-3.592q.277-.275.704-.275t.704.275q.3.3.3.713t-.3.687L13.375 12l3.592 3.592q.275.277.275.704t-.275.704q-.3.3-.712.3t-.688-.3z" />
+              d="m12 12.727l-3.592 3.592q-.16.16-.354.15T7.7 16.3t-.16-.364q0-.203.16-.363L11.273 12l3.592-3.567q-.16-.16-.15-.364t.169-.363t.364-.16q.203 0 .363.16L12 11.298l3.567-3.592q.277-.275.704-.275t.704.275q.3.3.3.713t-.3.687L13.375 12l3.592 3.592q.275.277.275.704t-.275.704q-.3.3-.712.3t-.688-.3z" />
           </svg>
         </div>
       </button>
@@ -179,6 +177,15 @@
                     Family name
                   </label>
                 </div>
+              </div>
+              <div class="relative z-0 w-full mb-5 group">
+                <input v-model="form.email" type="email" id="floating_email"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " required />
+                  <label for="floating_email"
+                    class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Email address
+                  </label>
               </div>
               <div class="relative z-0 w-full mb-5 group">
                 <input v-model="form.phoneNumber" type="tel" id="floating_phone"
@@ -254,6 +261,18 @@
 
 <script setup lang="ts">
 import MainLayout from "~/layouts/mainLayout.vue";
+import type { ProductType } from '~/types'
+import { useFavCartStore } from '~/stores/FavCart'
+import { ref, computed, reactive } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+
+// Define the expected structure for order items sent to the backend
+interface OrderItemDto {
+    productId: string;
+    quantity: number;
+    priceAtOrder: number;
+    nameAtOrder: string;
+}
 
 const store = useFavCartStore();
 const checkoutModal = ref(null);
@@ -264,12 +283,13 @@ const orderError = ref(false);
 const errorMessage = ref('');
 
 const totalPrice = computed(() => {
-  return store.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+  return store.cart.reduce((total: number, product: ProductType) => total + product.price * product.quantity, 0);
 });
 
 const form = reactive({
   firstName: '',
   familyName: '',
+  email: '',
   phoneNumber: '',
   address: '',
   city: ''
@@ -294,23 +314,69 @@ const resetOrderState = () => {
 
 const submitOrder = async () => {
   try {
+    // Check rate limiting
+    const lastOrderAttempt = localStorage.getItem('lastOrderAttempt');
+    const cooldownPeriod = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const now = Date.now();
+
+    if (lastOrderAttempt && (now - parseInt(lastOrderAttempt)) < cooldownPeriod) {
+      const remainingTime = Math.ceil((cooldownPeriod - (now - parseInt(lastOrderAttempt))) / (60 * 1000));
+      errorMessage.value = `Please wait ${remainingTime} minutes before placing another order.`;
+      orderError.value = true;
+      return;
+    }
+
     isProcessing.value = true;
     orderError.value = false;
     
     const orderDto = {
       firstName: form.firstName,
       familyName: form.familyName,
+      email: form.email,
       phoneNumber: form.phoneNumber,
-      address: form.address,
+      address: form.address + ', ' + form.city,
       totalPrice: totalPrice.value,
-      quantity: store.cart.reduce((total, product) => total + product.quantity, 0),
-      products: store.cart.map(product => product.id)
+      products: store.cart.map((product: ProductType): OrderItemDto => ({
+          productId: product.id,
+          quantity: product.quantity,
+          priceAtOrder: product.price,
+          nameAtOrder: product.productName
+      })),
+      shipping: {
+          method: 'Standard',
+          cost: 0,
+          address: form.address + ', ' + form.city,
+          city: form.city,
+          state: '',
+          zip: '',
+          country: 'Algeria',
+          tracking: '',
+      },
+      payment: {
+          method: 'Cash on Delivery',
+          status: 'pending',
+      },
+      customer: {
+          name: form.firstName + ' ' + form.familyName,
+          email: form.email,
+          phone: form.phoneNumber,
+          avatar: '',
+          isVIP: false,
+      },
+      subtotal: totalPrice.value,
+      tax: 0,
+      discount: 0,
     };
+
     const { $axios } = useNuxtApp();
     const response = await $axios.post('/order', orderDto);
+    
+    // Store the successful order attempt timestamp
+    localStorage.setItem('lastOrderAttempt', now.toString());
+    
     orderSuccess.value = true;
     store.clearCart(); 
-  } catch (error) {
+  } catch (error: any) {
     orderError.value = true;
     errorMessage.value = error.message || 'An error occurred while placing your order';
     console.error('Order submission error:', error);
@@ -325,3 +391,6 @@ onClickOutside(checkoutModal, () => {
   }
 });
 </script>
+
+<style>
+</style>
