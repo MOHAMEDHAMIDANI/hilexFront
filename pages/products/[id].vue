@@ -427,7 +427,7 @@
                 </div>
             </div>
         </div>
-        <slider :hasItems="ProductStore.Products"  title="related items" :-slider="false" :allow-arrows="false" description="">
+        <slider :hasItems="ProductStore.Products?.length > 0"  title="related items" :Slider="false" :allow-arrows="false" description="">
             <Product v-for="product in ProductStore.Products" :key="product.id" :product="product" />
         </slider>
     </MainLayout>

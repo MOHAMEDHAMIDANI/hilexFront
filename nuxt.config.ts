@@ -13,7 +13,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    'pinia-plugin-persistedstate',
+    '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     'nuxt-icon-tw',
@@ -21,4 +21,14 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@vueuse/nuxt',
   ],
+
+  build: {
+    transpile: ['socket.io-client'],
+  },
+
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3000',
+    },
+  },
 })
