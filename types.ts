@@ -26,6 +26,8 @@ export interface Product {
         id: string;
         categoryName: string;
     };
+    quantity: number;
+    priceAtOrder: number;
     isPromotionExpired: boolean;
     isPromotionActive: boolean;
 }

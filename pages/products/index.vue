@@ -116,6 +116,8 @@ import FilterSection from "~/components/FilterSection.vue";
 import FilterPill from "~/components/FilterPill.vue";
 import { type Product, type Category } from "~/types";
 import { useRoute, useRouter } from 'vue-router';
+import { useHead } from 'nuxt/app';
+
 const route = useRoute();
 const router = useRouter();
 const openFilters = ref(true);
@@ -203,4 +205,30 @@ const clearSearch = () => {
     searchQuery.value = '';
     handleSearch();
 };
+
+useHead({
+  title: 'Products | Hilex',
+  meta: [
+    { name: 'description', content: 'Browse our wide range of products at Hilex.' },
+    { property: 'og:title', content: 'Products | Hilex' },
+    { property: 'og:description', content: 'Browse our wide range of products at Hilex.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:title', content: 'Products | Hilex' },
+    { name: 'twitter:description', content: 'Browse our wide range of products at Hilex.' }
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://hilex.com/products' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Products',
+        description: 'Browse our wide range of products at Hilex.'
+      })
+    }
+  ]
+});
 </script>

@@ -16,9 +16,35 @@
 
 <script setup lang="ts">
 import MainLayout from '~/layouts/mainLayout.vue';
+import { useHead } from 'nuxt/app';
 const store = useFavCartStore();
 const productStore = useProductStore();
 
+useHead({
+  title: 'Favorites | Hilex',
+  meta: [
+    { name: 'description', content: 'View your favorite products at Hilex.' },
+    { property: 'og:title', content: 'Favorites | Hilex' },
+    { property: 'og:description', content: 'View your favorite products at Hilex.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:title', content: 'Favorites | Hilex' },
+    { name: 'twitter:description', content: 'View your favorite products at Hilex.' }
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://hilex.com/favorite' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Favorites',
+        description: 'View your favorite products at Hilex.'
+      })
+    }
+  ]
+});
 </script>
 
 <style scoped></style>

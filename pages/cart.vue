@@ -265,6 +265,7 @@ import type { ProductType } from '~/types'
 import { useFavCartStore } from '~/stores/FavCart'
 import { ref, computed, reactive } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { useHead } from 'nuxt/app'
 
 interface OrderItemDto {
     productId: string;
@@ -386,6 +387,32 @@ onClickOutside(checkoutModal, () => {
   if (!isProcessing.value) {
     closeModal();
   }
+});
+
+useHead({
+  title: 'Shopping Cart | Hilex',
+  meta: [
+    { name: 'description', content: 'View your shopping cart at Hilex.' },
+    { property: 'og:title', content: 'Shopping Cart | Hilex' },
+    { property: 'og:description', content: 'View your shopping cart at Hilex.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:title', content: 'Shopping Cart | Hilex' },
+    { name: 'twitter:description', content: 'View your shopping cart at Hilex.' }
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://hilex.com/cart' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Shopping Cart',
+        description: 'View your shopping cart at Hilex.'
+      })
+    }
+  ]
 });
 </script>
 

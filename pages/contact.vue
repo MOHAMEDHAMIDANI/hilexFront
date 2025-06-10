@@ -138,6 +138,7 @@
 
 <script setup lang="ts">
 import MainLayout from "~/layouts/mainLayout.vue";
+import { useHead } from 'nuxt/app';
 
 const fullName = ref("");
 const email = ref("");
@@ -147,6 +148,32 @@ const waiting = ref(false);
 const success = ref(false);
 const error = ref(false);
 const errorMessage = ref("");
+
+useHead({
+  title: 'Contact Us | Hilex',
+  meta: [
+    { name: 'description', content: 'Get in touch with Hilex for any inquiries or support.' },
+    { property: 'og:title', content: 'Contact Us | Hilex' },
+    { property: 'og:description', content: 'Get in touch with Hilex for any inquiries or support.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:title', content: 'Contact Us | Hilex' },
+    { name: 'twitter:description', content: 'Get in touch with Hilex for any inquiries or support.' }
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://hilex.com/contact' }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: 'Contact Hilex',
+        description: 'Get in touch with Hilex for any inquiries or support.'
+      })
+    }
+  ]
+});
 
 const sendMessage = async () => {
   try {

@@ -209,7 +209,7 @@
                             <button :disabled="!selectedColor || !selectedSize || !product"
                                 class="border size-[44px] rounded-md flex items-center justify-center transition-all duration-200"
                                 :class="selectedColor && selectedSize ? 'hover:bg-gray-100' : 'opacity-50 cursor-not-allowed'">
-                                <div @click="store.addToFav(product)" v-if="product && !store.Fav.some((item: ProductType) => item.id === product.id)"
+                                <div @click="product && store.addToFav(product)" v-if="product && !store.Fav.some((item: Product) => item.id === product.id)"
                                     class="relative inline-flex items-center justify-center p-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                         fill="currentColor">
@@ -218,7 +218,7 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                 </div>
-                                <div v-else-if="product" @click="store.removeFromFav(product)"
+                                <div v-else-if="product" @click="product && store.removeFromFav(product)"
                                     class="relative inline-flex items-center justify-center p-2 text-highlight-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                         fill="currentColor">
@@ -433,9 +433,16 @@
 
 <script setup lang="ts">
 import MainLayout from "~/layouts/mainLayout.vue";
-import type { Product as ProductType } from "~/types";
+import type { Product } from "~/types";
+import { useRoute } from 'vue-router'
+import { useRuntimeConfig } from '#imports'
+import { useFavCartStore } from '~/stores/FavCart'
+import { useHead } from 'nuxt/app'
+
 const store = useFavCartStore();
 const ProductStore = useProductStore();
+const config = useRuntimeConfig();
+const route = useRoute();
 const quantity = ref(1);
 const selectedSize = ref<string | null>(null);
 const selectedColor = ref<string | null>(null);
@@ -447,10 +454,9 @@ const zoomScale = ref(2);
 const MIN_ZOOM = 1.5;
 const MAX_ZOOM = 4;
 const loading = ref(true);
-const route = useRoute();
-const product = ref<ProductType | undefined>(undefined);
+const product = ref<Product | undefined>(undefined);
 const selectedImage = ref<string>('');
-const relatedProducts = ref<ProductType[]>([]);
+const relatedProducts = ref<Product[]>([]);
 
 const availableSizes = computed(() => {
     if (!product.value?.sizes) return [];
@@ -490,6 +496,92 @@ const zoomStyle = computed(() => {
         transition: 'transform 0.15s ease-out'
     };
 });
+
+// SEO Optimization
+useHead({
+  title: product.value?.productName ? `${product.value.productName} | Hilex` : 'Hilex',
+  meta: [
+    {
+      name: 'description',
+      content: product.value?.description || 'Discover quality products at Hilex'
+    },
+    {
+      name: 'keywords',
+      content: [
+        product.value?.productName,
+        product.value?.category?.categoryName,
+        'online shopping',
+        'e-commerce',
+        'fashion',
+        'clothing',
+        'accessories'
+      ].filter(Boolean).join(', ')
+    },
+    {
+      property: 'og:title',
+      content: product.value?.productName ? `${product.value.productName} | Hilex` : 'Hilex'
+    },
+    {
+      property: 'og:description',
+      content: product.value?.description || 'Discover quality products at Hilex'
+    },
+    {
+      property: 'og:image',
+      content: product.value?.image?.[0] ? `${config.public.apiUrl}/uploads/Product/${product.value.image[0]}` : undefined
+    },
+    {
+      property: 'og:url',
+      content: `${config.public.siteUrl}/products/${route.params.id}`
+    },
+    {
+      property: 'og:type',
+      content: 'product'
+    },
+    {
+      name: 'twitter:title',
+      content: product.value?.productName ? `${product.value.productName} | Hilex` : 'Hilex'
+    },
+    {
+      name: 'twitter:description',
+      content: product.value?.description || 'Discover quality products at Hilex'
+    },
+    {
+      name: 'twitter:image',
+      content: product.value?.image?.[0] ? `${config.public.apiUrl}/uploads/Product/${product.value.image[0]}` : undefined
+    }
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: `${config.public.siteUrl}/products/${route.params.id}`
+    }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.value?.productName || '',
+        description: product.value?.description,
+        image: product.value?.image?.[0] ? `${config.public.apiUrl}/uploads/Product/${product.value.image[0]}` : undefined,
+        url: `${config.public.siteUrl}/products/${route.params.id}`,
+        offers: {
+          '@type': 'Offer',
+          price: product.value?.hasPromotion ? Number(product.value?.promotionPrice) : Number(product.value?.price),
+          priceCurrency: 'DZD',
+          availability: product.value?.stock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          sku: product.value?.id?.toString()
+        },
+        brand: {
+          '@type': 'Brand',
+          name: 'Hilex'
+        }
+      })
+    }
+  ]
+});
+
 onMounted(async () => {
     try {
         const id = route.params.id;
