@@ -150,9 +150,8 @@ const errorMessage = ref("");
 
 const sendMessage = async () => {
   try {
-    // Check rate limiting
     const lastMessageAttempt = localStorage.getItem('lastMessageAttempt');
-    const cooldownPeriod = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const cooldownPeriod = 2 * 60 * 60 * 1000;
     const now = Date.now();
 
     if (lastMessageAttempt && (now - parseInt(lastMessageAttempt)) < cooldownPeriod) {
@@ -175,7 +174,6 @@ const sendMessage = async () => {
     });
 
     if (response.status === 201) {
-      // Store the successful message attempt timestamp
       localStorage.setItem('lastMessageAttempt', now.toString());
       success.value = true;
       fullName.value = "";

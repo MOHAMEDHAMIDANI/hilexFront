@@ -46,7 +46,6 @@
   background-size: 100%;
 }
 
-/* Animations */
 @keyframes fade-in-up {
   from {
     opacity: 0;

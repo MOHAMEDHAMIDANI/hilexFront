@@ -266,7 +266,6 @@ import { useFavCartStore } from '~/stores/FavCart'
 import { ref, computed, reactive } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
-// Define the expected structure for order items sent to the backend
 interface OrderItemDto {
     productId: string;
     quantity: number;
@@ -314,7 +313,6 @@ const resetOrderState = () => {
 
 const submitOrder = async () => {
   try {
-    // Check rate limiting
     const lastOrderAttempt = localStorage.getItem('lastOrderAttempt');
     const cooldownPeriod = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
     const now = Date.now();
@@ -371,7 +369,6 @@ const submitOrder = async () => {
     const { $axios } = useNuxtApp();
     const response = await $axios.post('/order', orderDto);
     
-    // Store the successful order attempt timestamp
     localStorage.setItem('lastOrderAttempt', now.toString());
     
     orderSuccess.value = true;

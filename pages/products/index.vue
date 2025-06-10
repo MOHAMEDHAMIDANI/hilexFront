@@ -82,9 +82,9 @@
                                     aria-label="Price range filter"
                                     class="w-full mt-4 bg-gray-100 border border-gray-300 rounded-md h-2 focus:outline-none" />
                                 <div class="flex justify-between mt-2 text-sm">
-                                    <span>$0</span>
-                                    <span class="font-medium">${{ priceRange }}</span>
-                                    <span>${{ attributes.maxPrice }}</span>
+                                    <span>DA0</span>
+                                    <span class="font-medium">DA{{ priceRange }}</span>
+                                    <span>DA{{ attributes.maxPrice }}</span>
                                 </div>
                             </div>
                         </FilterSection>

@@ -83,15 +83,15 @@
                     <div v-if="showZoom"
                         class="absolute w-[300px] h-[300px] border border-gray-300 bg-white rounded-lg shadow-xl overflow-hidden pointer-events-none"
                         :style="{
-                            left: `${Math.min(Math.max(mouseX.value, 0), imageContainer.value?.offsetWidth - 300 || 0)}px`,
-                            top: `${Math.min(Math.max(mouseY.value - 150, -150), (imageContainer.value?.offsetHeight || 0) - 150)}px`,
+                            left: `${Math.min(Math.max(mouseX, 0), (imageContainer?.offsetWidth || 0) - 300 || 0)}px`,
+                            top: `${Math.min(Math.max(mouseY - 150, -150), (imageContainer?.offsetHeight || 0) - 150)}px`,
                             zIndex: 50
                         }">
                         <img :src="'http://localhost:3000/uploads/Product/' + selectedImage" alt="Zoomed product image"
                             class="absolute w-[200%] h-[200%] object-contain transition-transform duration-150"
                             :style="zoomStyle" />
                         <div class="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
-                            {{ Math.round((zoomScale.value || 2) * 100) }}%
+                            {{ Math.round((zoomScale || 2) * 100) }}%
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                         <div class="flex flex-col gap-2">
                             <div class="flex items-center gap-3">
                                 <h4 class="text-[28px] font-[600] text-highlight-dark">
-                                    DZD {{ product?.hasPromotion ? product?.promotionPrice : product?.price }}
+                                    DZD {{ currentProductPrice }}
                                 </h4>
                                 <span v-if="product?.hasPromotion"
                                     class="text-[16px] font-[400] text-gray-400 line-through">
@@ -206,10 +206,10 @@
                                 <span class="text-white">Buy Now</span>
                             </button>
 
-                            <button :disabled="!selectedColor || !selectedSize"
+                            <button :disabled="!selectedColor || !selectedSize || !product"
                                 class="border size-[44px] rounded-md flex items-center justify-center transition-all duration-200"
                                 :class="selectedColor && selectedSize ? 'hover:bg-gray-100' : 'opacity-50 cursor-not-allowed'">
-                                <div @click="store.addToFav(product)" v-if="!store.Fav.includes(product)"
+                                <div @click="store.addToFav(product)" v-if="product && !store.Fav.some((item: ProductType) => item.id === product.id)"
                                     class="relative inline-flex items-center justify-center p-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                         fill="currentColor">
@@ -218,7 +218,7 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                 </div>
-                                <div v-else @click="store.removeFromFav(product)"
+                                <div v-else-if="product" @click="store.removeFromFav(product)"
                                     class="relative inline-flex items-center justify-center p-2 text-highlight-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                         fill="currentColor">
@@ -395,15 +395,14 @@
                                                 product?.productName }}</span>
                                         </div>
                                         <span class="text-gray-900 font-semibold text-sm sm:text-base">
-                                            DZD {{ product?.hasPromotion ? product?.promotionPrice : product?.price }}
+                                            DZD {{ currentProductPrice }}
                                         </span>
                                     </div>
                                     <div class="space-y-4">
                                         <div class="flex justify-between text-sm sm:text-base border-t pt-3">
                                             <span class="text-gray-600">Subtotal:</span>
                                             <span class="text-gray-900">
-                                                DZD {{ (product?.hasPromotion ? product?.promotionPrice : product?.price) *
-                                                    quantity }}
+                                                DZD {{ currentProductPrice * quantity }}
                                             </span>
                                         </div>
 
@@ -415,8 +414,7 @@
                                         <div class="flex justify-between text-lg  border-t pt-3">
                                             <span class="text-gray-700">Total:</span>
                                             <span class="text-gray-900">
-                                                DZD {{ (product?.hasPromotion ? product?.promotionPrice : product?.price) *
-                                                    quantity }}
+                                                DZD {{ currentProductPrice * quantity }}
                                             </span>
                                         </div>
                                     </div>
@@ -427,8 +425,8 @@
                 </div>
             </div>
         </div>
-        <slider :hasItems="ProductStore.Products?.length > 0"  title="related items" :Slider="false" :allow-arrows="false" description="">
-            <Product v-for="product in ProductStore.Products" :key="product.id" :product="product" />
+        <slider :hasItems="relatedProducts?.length > 0"  title="related items" :Slider="false" :allow-arrows="false" description="">
+            <Product v-for="product in relatedProducts" :key="product.id" :product="product" />
         </slider>
     </MainLayout>
 </template>
@@ -452,6 +450,7 @@ const loading = ref(true);
 const route = useRoute();
 const product = ref<ProductType | undefined>(undefined);
 const selectedImage = ref<string>('');
+const relatedProducts = ref<ProductType[]>([]);
 
 const availableSizes = computed(() => {
     if (!product.value?.sizes) return [];
@@ -505,6 +504,21 @@ onMounted(async () => {
         console.error("Error loading product:", error);
     } finally {
         loading.value = false;
+    }
+
+    if (product.value?.category?.id) {
+        try {
+            relatedProducts.value = await ProductStore.getProductsWithFilters({
+                categoryId: product.value.category.id,
+                productName: null,
+                color: null,
+                size: null,
+                maxPrice: null,
+            });
+            relatedProducts.value = relatedProducts.value.filter(p => p.id !== product.value?.id);
+        } catch (error) {
+            console.error("Error loading related products:", error);
+        }
     }
 });
 
@@ -565,9 +579,8 @@ const handleSizeSelect = (size: string) => {
 };
 
 const submitSingleProductOrder = async () => {
-    // Check rate limiting
     const lastOrderAttempt = localStorage.getItem('lastOrderAttempt');
-    const cooldownPeriod = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+    const cooldownPeriod = 2 * 60 * 60 * 1000;
     const now = Date.now();
 
     if (lastOrderAttempt && (now - parseInt(lastOrderAttempt)) < cooldownPeriod) {
@@ -576,8 +589,6 @@ const submitSingleProductOrder = async () => {
         orderError.value = true;
         return;
     }
-
-    // Basic validation check
     if (!form.firstName || !form.familyName || !form.email || !form.phoneNumber || !form.address || !form.city) {
         errorMessage.value = 'Please fill in all required billing details.';
         orderError.value = true;
@@ -636,16 +647,14 @@ const submitSingleProductOrder = async () => {
                 avatar: '',
                 isVIP: false,
             },
-            subtotal: currentPrice * itemQuantity,
+            subtotal: parseFloat((currentPrice * itemQuantity).toFixed(2)),
             tax: 0,
             discount: 0,
         };
 
         const { $axios } = useNuxtApp();
         const response = await $axios.post('/order', orderDto);
-        
-        // Store the successful order attempt timestamp
-        localStorage.setItem('lastOrderAttempt', now.toString());
+                localStorage.setItem('lastOrderAttempt', now.toString());
         
         orderSuccess.value = true;
     } catch (error: any) {
@@ -667,6 +676,16 @@ onClickOutside(buyModel, () => {
     if (!isProcessing.value || orderSuccess.value || orderError.value) {
         showOrderDetailsModal.value = false;
         resetOrderState();
+    }
+});
+
+const currentProductPrice = computed(() => {
+    if (!product.value) return 0;
+    if (product.value.hasPromotion) {
+        const promotionPrice = parseFloat(product.value.promotionPrice || '0');
+        return promotionPrice;
+    } else {
+        return parseFloat(product.value.price);
     }
 });
 </script>

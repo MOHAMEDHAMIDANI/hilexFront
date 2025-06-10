@@ -21,6 +21,13 @@ const categoryStore = useCategoryStore();
 onMounted(() => {
   productStore.getProducts();
   categoryStore.getCategories();
+  
+  fetch('http://localhost:3000/sales/record-visit', {
+    method: 'POST',
+  })
+  .then(response => response.json())
+  .then(data => console.log('Visit recorded:', data))
+  .catch(error => console.error('Error recording visit:', error));
 });
 </script>
 

@@ -41,7 +41,7 @@ const services = [
   {
     icon: Truck,
     title: "Free and Fast Delivery",
-    description: "Free delivery for all orders over $140",
+    description: "Free delivery for all orders over DA140",
   },
   {
     icon: Headset,
