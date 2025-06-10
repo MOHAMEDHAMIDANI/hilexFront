@@ -54,17 +54,14 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         async refreshToken() {
+            const { $axios } = useNuxtApp();
             const refreshToken = useCookie('refresh_token');
             try {
                 if (!refreshToken.value) {
                     throw new Error('No refresh token available');
                 }
-
-                const response = await $fetch('/auth/refresh', {
-                    method: 'POST',
-                    body: {
-                        refresh_token: refreshToken.value
-                    }
+                const response = await $axios.post('/authentication/refresh', {
+                    refresh_token: refreshToken.value
                 });
                 console.log(response);
                 await this.setTokens();

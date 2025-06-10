@@ -64,7 +64,7 @@
       </Transition>
 
       <div class="w-[190px] h-[190px]">
-        <img :src="'http://localhost:3000/uploads/Product/' + product.image[0]" alt=""
+        <img :src="`${backendUrl}/uploads/Product/` + product.image[0]" alt=""
           class="w-full h-full object-center" />
       </div>
     </div>
@@ -92,15 +92,20 @@
 
 <script setup lang="ts">
 import type { Product } from '~/types';
+import { useFavCartStore } from '~/stores/favCart';
+import { computed } from 'vue';
+
+const props = defineProps<{
+    product: Product
+    loading?: boolean
+}>()
+
 const store = useFavCartStore();
 const show = ref(false);
 
-interface ProductProps {
-  product: Product;
-  loading?: boolean; 
-}
-
-const { product, loading = false } = defineProps<ProductProps>();
+const backendUrl = computed(() => {
+    return import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+});
 
 </script>
 

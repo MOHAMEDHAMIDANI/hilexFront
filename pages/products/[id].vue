@@ -67,7 +67,7 @@
                         selectedImage === image ? 'ring-2 ring-highlight-2' : 'hover:ring-2 hover:ring-highlight-2'
                     ]">
                         <div class="md:w-[112px] md:h-[97px] sm:w-[90px] sm:h-[75px]">
-                            <img :src="'http://localhost:3000/uploads/Product/' + image" alt="Product thumbnail"
+                            <img :src="`${backendUrl}/uploads/Product/` + image" alt="Product thumbnail"
                                 class="w-full h-full object-contain" />
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                     <div @mousemove="handleMouseMove" @mouseenter="showZoom = true" @mouseleave="showZoom = false"
                         @wheel.prevent="handleWheel" ref="imageContainer"
                         class="max-w-[446px] max-h-[315px] flex justify-center items-center sm:w-full sm:h-full cursor-zoom-in relative">
-                        <img :src="'http://localhost:3000/uploads/Product/' + selectedImage" alt="Product image"
+                        <img :src="`${backendUrl}/uploads/Product/` + selectedImage" alt="Product image"
                             class="w-full h-full object-contain" />
                     </div>
                     <div v-if="showZoom"
@@ -87,7 +87,7 @@
                             top: `${Math.min(Math.max(mouseY - 150, -150), (imageContainer?.offsetHeight || 0) - 150)}px`,
                             zIndex: 50
                         }">
-                        <img :src="'http://localhost:3000/uploads/Product/' + selectedImage" alt="Zoomed product image"
+                        <img :src="`${backendUrl}/uploads/Product/` + selectedImage" alt="Zoomed product image"
                             class="absolute w-[200%] h-[200%] object-contain transition-transform duration-150"
                             :style="zoomStyle" />
                         <div class="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
@@ -281,15 +281,12 @@
                 </button>
                 <div ref="buyModel"
                     class="bg-gray-100 p-6 rounded-md shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-4xl flex flex-col space-y-6 max-h-[79vh] overflow-auto">
-                    
-                    <!-- Loading State -->
                     <div v-if="isProcessing" class="text-center py-8">
                         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Processing Order...</h3>
                         <p class="text-gray-600">Please wait while we process your order.</p>
                     </div>
 
-                    <!-- Success State -->
                     <div v-else-if="orderSuccess" class="text-center py-8">
                         <div class="bg-green-50 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
                             <Icon name="material-symbols:check-circle-rounded" class="w-12 h-12 text-green-500" />
@@ -303,8 +300,6 @@
                             Close
                           </button>
                     </div>
-
-                    <!-- Error State -->
                     <div v-else-if="orderError" class="text-center py-8">
                         <div class="bg-red-50 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
                             <Icon name="material-symbols:error-rounded" class="w-12 h-12 text-red-500" />
@@ -318,8 +313,6 @@
                             Try Again
                           </button>
                     </div>
-
-                    <!-- Billing Details Form (Default State) -->
                     <template v-else>
                         <h3 class="font-[500] text-[36px] leading-[30px] capitalize">billing details</h3>
                         <div
@@ -388,7 +381,7 @@
                                         <div class="flex items-center space-x-3">
                                             <div class="w-16 h-16 flex-shrink-0">
                                                 <img class="w-full h-full object-contain"
-                                                    :src="`http://localhost:3000/uploads/Product/${product?.image[0]}`"
+                                                    :src="`${backendUrl}/uploads/Product/${product?.image[0]}`"
                                                     alt="Product Image">
                                             </div>
                                             <span class="text-gray-700 font-medium text-sm sm:text-base">{{
@@ -457,6 +450,10 @@ const loading = ref(true);
 const product = ref<Product | undefined>(undefined);
 const selectedImage = ref<string>('');
 const relatedProducts = ref<Product[]>([]);
+
+const backendUrl = computed(() => {
+    return import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+});
 
 const availableSizes = computed(() => {
     if (!product.value?.sizes) return [];

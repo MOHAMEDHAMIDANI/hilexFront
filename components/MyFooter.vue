@@ -2,7 +2,6 @@
   <footer class="bg-gray-900 text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <!-- Company Info -->
         <div class="space-y-4">
           <h3 class="text-xl font-bold">Helix</h3>
           <p class="text-gray-400 text-sm leading-relaxed">
@@ -26,8 +25,6 @@
             </a>
           </div>
         </div>
-
-        <!-- Quick Links -->
         <div class="space-y-4">
           <h3 class="text-lg font-semibold">Quick Links</h3>
           <ul class="space-y-2 text-gray-400">
@@ -38,8 +35,6 @@
             <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
           </ul>
         </div>
-
-        <!-- Contact Info -->
         <div class="space-y-4">
           <h3 class="text-lg font-semibold">Contact Us</h3>
           <div class="space-y-2 text-gray-400">
@@ -64,8 +59,6 @@
             </p>
           </div>
         </div>
-
-        <!-- Newsletter -->
         <div class="space-y-4">
           <h3 class="text-lg font-semibold">Newsletter</h3>
           <p class="text-gray-400 text-sm">Subscribe to our newsletter for updates and exclusive offers.</p>
@@ -86,8 +79,6 @@
           </form>
         </div>
       </div>
-
-      <!-- Bottom Bar -->
       <div class="mt-12 pt-8 border-t border-gray-800">
         <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p class="text-gray-400 text-sm">

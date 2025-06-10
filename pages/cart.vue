@@ -5,10 +5,8 @@
         <Icon name="mdi:cart-outline" class="w-20 h-20 text-gray-400 mx-auto mb-4" />
         <h2 class="text-2xl font-semibold text-gray-700 mb-2">Your cart is empty</h2>
         <p class="text-gray-500 mb-6">Looks like you haven't added any items to your cart yet</p>
-        <nuxtLink 
-          :to="{ name: 'index' }"
-          class="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition"
-        >
+        <nuxtLink :to="{ name: 'index' }"
+          class="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition">
           Continue Shopping
         </nuxtLink>
       </div>
@@ -27,15 +25,16 @@
             <td class="w-1/4 h-full group">
               <div class="flex items-center space-x-3 w-fit mx-auto">
                 <div class="w-10 h-10 flex-shrink-0 relative">
-                  <div
-                  @click="store.removeFromCart(product)"
+                  <div @click="store.removeFromCart(product)"
                     class="absolute -top-1.5 cursor-pointer hidden group-hover:flex hover:bg-highlight-dark duration-200 -left-5 size-[24px] text-white bg-highlight-2 justify-center items-center rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                       <path fill="currentColor"
                         d="m12 13.4l-2.917 2.925q-.277.275-.704.275t-.704-.275q-.275-.275-.275-.7t.275-.7L10.6 12L7.675 9.108Q7.4 8.831 7.4 8.404t.275-.704q.275-.275.7-.275t.7.275L12 10.625L14.892 7.7q.277-.275.704-.275t.704.275q.3.3.3.713t-.3.687L13.375 12l2.925 2.917q.275.277.275.704t-.275.704q-.3.3-.712.3t-.688-.3z" />
                     </svg>
                   </div>
-                  <img class="w-full h-full object-contain" :src=" 'http://localhost:3000/uploads/Product/'+ product.image[0]" alt="Product Image">
+                  <img class="w-full h-full object-contain"
+                    :src="`${process.env.BACKEND_URL || 'http://localhost:3000'}/uploads/Product/` + product.image[0]"
+                    alt="Product Image">
                 </div>
                 <span class="text-gray-700 font-medium text-sm sm:text-base">{{ product.productName }}</span>
               </div>
@@ -82,7 +81,8 @@
             <div class="space-y-4">
               <div class="flex justify-between text-sm sm:text-base">
                 <span class="text-gray-600 ">Subtotal:</span>
-                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
+                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
+                  product.quantity, 0) }}</span>
               </div>
 
               <div class="flex justify-between text-sm sm:text-base border-t pt-3">
@@ -92,16 +92,14 @@
 
               <div class="flex justify-between text-lg  border-t pt-3">
                 <span class="text-gray-700">Total:</span>
-                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price * product.quantity, 0) }}</span>
+                <span class="text-gray-900">DZD {{store.cart.reduce((total, product) => total + product.price *
+                  product.quantity, 0) }}</span>
               </div>
             </div>
 
             <div class="w-full flex justify-center mt-6">
-              <button 
-                @click="openCheckoutModal"
-                :disabled="isProcessing"
-                class="w-[218px] h-[48px] bg-highlight-2  text-white text-base font-medium rounded-md hover:bg-highlight-dark transition cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
+              <button @click="openCheckoutModal" :disabled="isProcessing"
+                class="w-[218px] h-[48px] bg-highlight-2  text-white text-base font-medium rounded-md hover:bg-highlight-dark transition cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed">
                 <span v-if="!isProcessing">Proceed to checkout</span>
                 <span v-else class="flex items-center justify-center gap-2">
                   <Icon name="eos-icons:loading" class="w-5 h-5 animate-spin" />
@@ -116,9 +114,7 @@
     <div v-if="showCheckoutModal" class="fixed inset-0 bg-black/60 z-10 flex justify-center items-center p-4">
       <button
         class="absolute cursor-pointer top-5 right-5 bg-primary hover:bg-primary-dark2 duration-300 size-[44px] rounded flex items-center justify-center"
-        @click="closeModal"
-        :disabled="isProcessing"
-      >
+        @click="closeModal" :disabled="isProcessing">
         <div class="relative inline-flex items-center justify-center p-2 text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
             <path fill="currentColor"
@@ -128,16 +124,15 @@
       </button>
       <div ref="checkoutModal"
         class="bg-gray-100 p-6 rounded-md shadow-md w-full max-w-2xl md:max-w-3xl lg:max-w-4xl flex flex-col space-y-6 max-h-[79vh] overflow-auto">
-                <div v-if="orderSuccess" class="text-center py-8">
+        <div v-if="orderSuccess" class="text-center py-8">
           <div class="bg-green-50 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
             <Icon name="material-symbols:check-circle-rounded" class="w-12 h-12 text-green-500" />
           </div>
           <h3 class="text-2xl font-semibold text-gray-800 mb-2">Order Confirmed!</h3>
-          <p class="text-gray-600 mb-6">We've received your order and will contact you shortly to confirm the details.</p>
-          <button 
-            @click="closeModal"
-            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
-          >
+          <p class="text-gray-600 mb-6">We've received your order and will contact you shortly to confirm the details.
+          </p>
+          <button @click="closeModal"
+            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
             Continue Shopping
           </button>
         </div>
@@ -147,10 +142,8 @@
           </div>
           <h3 class="text-2xl font-semibold text-gray-800 mb-2">Order Failed</h3>
           <p class="text-gray-600 mb-6">{{ errorMessage || 'Something went wrong. Please try again.' }}</p>
-          <button 
-            @click="resetOrderState"
-            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
-          >
+          <button @click="resetOrderState"
+            class="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
             Try Again
           </button>
         </div>
@@ -180,12 +173,12 @@
               </div>
               <div class="relative z-0 w-full mb-5 group">
                 <input v-model="form.email" type="email" id="floating_email"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" " required />
-                  <label for="floating_email"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Email address
-                  </label>
+                  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" " required />
+                <label for="floating_email"
+                  class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                  Email address
+                </label>
               </div>
               <div class="relative z-0 w-full mb-5 group">
                 <input v-model="form.phoneNumber" type="tel" id="floating_phone"
@@ -215,8 +208,7 @@
                 </label>
               </div>
               <button type="submit" :disabled="isProcessing"
-                class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
+                class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center disabled:bg-gray-400 disabled:cursor-not-allowed">
                 <span v-if="!isProcessing">Place Order</span>
                 <span v-else class="flex items-center justify-center gap-2">
                   <Icon name="eos-icons:loading" class="w-5 h-5 animate-spin" />
@@ -230,11 +222,13 @@
                 <div class="flex items-center justify-between pb-2" v-for="product in store.cart" :key="product.id">
                   <div class="flex items-center space-x-3">
                     <div class="w-16 h-16 flex-shrink-0">
-                      <img class="w-full h-full object-contain" :src="'http://localhost:3000/uploads/Product/' + product.image[0]" alt="Product Image">
+                      <img class="w-full h-full object-contain"
+                        :src="`${process.env.BACKEND_URL || 'http://localhost:3000'}/uploads/Product/` + product.image[0]" alt="Product Image">
                     </div>
                     <span class="text-gray-700 font-medium text-sm sm:text-base">{{ product.productName }}</span>
                   </div>
-                  <span class="text-gray-900 font-semibold text-sm sm:text-base">DZD {{ product.price }} x {{ product.quantity }}</span>
+                  <span class="text-gray-900 font-semibold text-sm sm:text-base">DZD {{ product.price }} x {{
+                    product.quantity }}</span>
                 </div>
                 <div class="space-y-4">
                   <div class="flex justify-between text-sm sm:text-base border-t pt-3">
@@ -268,10 +262,10 @@ import { onClickOutside } from '@vueuse/core'
 import { useHead } from 'nuxt/app'
 
 interface OrderItemDto {
-    productId: string;
-    quantity: number;
-    priceAtOrder: number;
-    nameAtOrder: string;
+  productId: string;
+  quantity: number;
+  priceAtOrder: number;
+  nameAtOrder: string;
 }
 
 const store = useFavCartStore();
@@ -327,7 +321,7 @@ const submitOrder = async () => {
 
     isProcessing.value = true;
     orderError.value = false;
-    
+
     const orderDto = {
       firstName: form.firstName,
       familyName: form.familyName,
@@ -336,31 +330,31 @@ const submitOrder = async () => {
       address: form.address + ', ' + form.city,
       totalPrice: totalPrice.value,
       products: store.cart.map((product: ProductType): OrderItemDto => ({
-          productId: product.id,
-          quantity: product.quantity,
-          priceAtOrder: product.price,
-          nameAtOrder: product.productName
+        productId: product.id,
+        quantity: product.quantity,
+        priceAtOrder: product.price,
+        nameAtOrder: product.productName
       })),
       shipping: {
-          method: 'Standard',
-          cost: 0,
-          address: form.address + ', ' + form.city,
-          city: form.city,
-          state: '',
-          zip: '',
-          country: 'Algeria',
-          tracking: '',
+        method: 'Standard',
+        cost: 0,
+        address: form.address + ', ' + form.city,
+        city: form.city,
+        state: '',
+        zip: '',
+        country: 'Algeria',
+        tracking: '',
       },
       payment: {
-          method: 'Cash on Delivery',
-          status: 'pending',
+        method: 'Cash on Delivery',
+        status: 'pending',
       },
       customer: {
-          name: form.firstName + ' ' + form.familyName,
-          email: form.email,
-          phone: form.phoneNumber,
-          avatar: '',
-          isVIP: false,
+        name: form.firstName + ' ' + form.familyName,
+        email: form.email,
+        phone: form.phoneNumber,
+        avatar: '',
+        isVIP: false,
       },
       subtotal: totalPrice.value,
       tax: 0,
@@ -369,11 +363,11 @@ const submitOrder = async () => {
 
     const { $axios } = useNuxtApp();
     const response = await $axios.post('/order', orderDto);
-    
+
     localStorage.setItem('lastOrderAttempt', now.toString());
-    
+
     orderSuccess.value = true;
-    store.clearCart(); 
+    store.clearCart();
   } catch (error: any) {
     orderError.value = true;
     errorMessage.value = error.message || 'An error occurred while placing your order';
@@ -416,5 +410,4 @@ useHead({
 });
 </script>
 
-<style>
-</style>
+<style></style>

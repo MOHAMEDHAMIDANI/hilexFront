@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default defineNuxtPlugin(() => {
     const axiosInstance = axios.create({
-        baseURL: 'http://localhost:3000',
+        baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
         withCredentials: false,
     });
     axiosInstance.interceptors.request.use(config => {
